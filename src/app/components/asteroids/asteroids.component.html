@@ -1,1 +1,15 @@
-<p>asteroids works!</p>
+<div class="container">
+    <div class="row"> <!-- Centering the items -->
+        <h1 class="col-12 text-center my-3">Near-Miss Asteroids</h1>
+        <div *ngFor="let asteroid of asteroids" class="col-lg-2 col-md-3 col-sm-6 g-4 d-flex justify-content-center">
+            <div class="card p-2" style="width: 18rem;">
+                <img src="images/asteroidPlaceholder.png" class="card-img-top" alt="asteroid_placeholder">
+                <div class="card-body"> <!-- Centering text inside the card -->
+                    <h5 class="card-title">{{ asteroid.name }}</h5>
+                    <p class="card-text">Dangerous: {{asteroid.is_potentially_hazardous_asteroid ? 'Yes' : 'No'}}</p>
+                    <a [routerLink]="['/asteroid-details',asteroid.id]" class="btn btn-light">Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
