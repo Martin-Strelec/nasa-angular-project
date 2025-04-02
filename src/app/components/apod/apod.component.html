@@ -1,1 +1,13 @@
-<p>apod works!</p>
+<div class="container">
+    <div class="row">
+        <h1 class="col text-center">APOD - A Picture Of The Day</h1>
+        <div class="btn btn-primary" (click)="getPicture()">Search</div>
+        <img *ngIf="picture" [src]="picture.hdurl" [style.width]="imageWidth">
+        <div class="btn btn-primary" (click)="getPictures()">Search</div>
+        <div *ngIf="pictures">
+            <div *ngFor="let picture of pictures">
+                <img [src]="picture.hdurl" [style.width]="imageWidth">
+            </div>
+        </div>
+    </div>
+</div>
