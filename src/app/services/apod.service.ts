@@ -15,7 +15,7 @@ export class ApodService {
   constructor(private _http: HttpClient) { }
 
   getSingleAPOD(date: string): Observable<Apod> {
-    return this._http.get<Apod>(`${this._apiURL}/?api_key=${environment.API_KEY}&date=${date}`).pipe(
+    return this._http.get<Apod>(`${this._apiURL}?api_key=${environment.API_KEY}&date=${date}`).pipe(
       map(response => ({
           date: response.date,
           explanation: response.explanation,
@@ -28,7 +28,7 @@ export class ApodService {
     );
   }
   getMultipleAPOD(start_date: string, end_date: string): Observable<Apod[]> {
-    return this._http.get<Apod[]>(`${this._apiURL}/?api_key=${environment.API_KEY}&start_date=${start_date}&end_date=${end_date}`).pipe(
+    return this._http.get<Apod[]>(`${this._apiURL}?api_key=${environment.API_KEY}&start_date=${start_date}&end_date=${end_date}`).pipe(
       map(response => 
           response.map(apod => ({
           date: apod.date,
