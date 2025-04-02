@@ -15,7 +15,7 @@ export class ApodService {
   constructor(private _http: HttpClient) { }
 
   getSingleAPOD(date: string): Observable<Apod> {
-    return this._http.get<Apod>(`${this._apiURL}/?api_key=${environment.API_KEY}&${date}`).pipe(
+    return this._http.get<Apod>(`${this._apiURL}/?api_key=${environment.API_KEY}&date=${date}`).pipe(
       map(response => ({
           date: response.date,
           explanation: response.explanation,
