@@ -27,4 +27,18 @@ export class ApodService {
         }))
     );
   }
+  getMultipleAPOD(start_date: string, end_date: string): Observable<Apod[]> {
+    return this._http.get<Apod[]>(`${this._apiURL}/?api_key=${environment.API_KEY}&start_date=${start_date}&end_date=${end_date}`).pipe(
+      map(response => 
+          response.map(apod => ({
+          date: apod.date,
+          explanation: apod.explanation,
+          hdurl: apod.hdurl,
+          media_type: apod.media_type,
+          service_version: apod.service_version,
+          title: apod.title,
+          url: apod.url
+        })))
+    );
+  }
 }
