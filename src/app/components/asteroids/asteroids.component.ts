@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+
 import { AsteroidsService } from '../../services/asteroids.service';
 import { Asteroids, Asteroid, NearEarthObjects } from '../../models/asteroids';
 
@@ -11,14 +14,18 @@ import { Asteroids, Asteroid, NearEarthObjects } from '../../models/asteroids';
   styleUrl: './asteroids.component.css'
 })
 export class AsteroidsComponent implements OnInit {
-
   asteroids: Asteroid[] = [];
   neoData: Asteroid[] = [];
+  errorMessage: string = '';
 
   constructor(private _asteroidsService: AsteroidsService) { }
 
   ngOnInit() {
     this.getAsteroids();
+  }
+
+  reloadWindow() {
+    window.location.reload();
   }
 
   extractAsteroids(neoObject: NearEarthObjects): Asteroid[] {
@@ -27,9 +34,16 @@ export class AsteroidsComponent implements OnInit {
   }
 
   getAsteroids() {
-    this._asteroidsService.getAsteroids("2015-12-10", "2015-12-11").subscribe((response: Asteroids) => {
-      this.asteroids = this.extractAsteroids(response.near_earth_objects);
-      console.log(this.asteroids);
-    });
+    this._asteroidsService.getAsteroids("2015-12-10", "2015-12-11")
+      .pipe(
+        catchError(error => {
+          this.errorMessage = 'Failed to fetch EPIC images. Please try again later.';
+          console.error('Error fetching EPIC metadata:', error);
+          return throwError(error); // Rethrow the error for further handling if needed
+        })
+      ).subscribe((response: Asteroids) => {
+        this.asteroids = this.extractAsteroids(response.near_earth_objects);
+        console.log(this.asteroids);
+      });
   }
 }

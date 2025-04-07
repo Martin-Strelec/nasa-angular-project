@@ -1,6 +1,16 @@
 <div class="container">
     <div class="row"> <!-- Centering the items -->
         <h1 class="col-12 text-center my-3">Near-Miss Asteroids</h1>
+        <!-- Display error message -->
+        <div *ngIf="errorMessage">
+            <div class="alert alert-danger text-center">
+                {{errorMessage}}
+            </div>
+            <div (click)="reloadWindow()">
+                <img src="images/reloadIcon.png" alt="Error Image" class="img-fluid mx-auto d-block"
+                    style="width: 25px; height: auto;">
+            </div>
+        </div>
         <div *ngFor="let asteroid of asteroids" class="col-lg-2 col-md-3 col-sm-6 g-4 d-flex justify-content-center">
             <div class="card p-2" style="width: 18rem;">
                 <img src="images/asteroidPlaceholder.png" class="card-img-top" alt="asteroid_placeholder">

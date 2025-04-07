@@ -1,6 +1,18 @@
 <div class="container">
     <div class="row">
         <h1 class="col text-center">APOD - A Picture Of The Day</h1>
+
+        <!-- Display error message -->
+        <div *ngIf="errorMessage">
+            <div class="alert alert-danger text-center">
+                {{errorMessage}}
+            </div>
+            <div (click)="(reloadWindow())">
+                <img src="images/reloadIcon.png" alt="Error Image" class="img-fluid mx-auto d-block"
+                    style="width: 25px; height: auto;">
+            </div>
+        </div>
+
         <div class="btn btn-primary" (click)="getPicture()">Search</div>
         <img *ngIf="picture" [src]="picture.hdurl" [style.width]="imageWidth">
         <div class="btn btn-primary" (click)="getPictures()">Search</div>

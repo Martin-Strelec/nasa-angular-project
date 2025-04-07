@@ -1,8 +1,21 @@
 <div class="container">
     <h1 class="text-center my-5">EPIC Images</h1>
+
+    <!-- Display error message -->
+    <div *ngIf="errorMessage">
+        <div class="alert alert-danger text-center">
+            {{errorMessage}}
+        </div>
+        <div (click)="reloadWindow()">
+            <img src="images/reloadIcon.png" alt="Error Image" class="img-fluid mx-auto d-block" style="width: 25px; height: auto;">
+        </div>
+    </div>
+    
     <div class="row justify-content-center">
-        <div class="col-3" *ngFor="let image of EpicImages">
-            <img [src]="image" class="img-fluid" alt="Epic Image" style="width: 100%; height: auto;">
+        <div class="col-3" *ngFor="let epic of EPICs">
+            <a href="{{epic.imageUrl}}" class="text-decoration-none">
+                <img [src]="epic.imageUrl" class="img-fluid" alt="Epic Image" style="width: 100%; height: auto;">
+            </a>    
         </div>
     </div>
 </div>
