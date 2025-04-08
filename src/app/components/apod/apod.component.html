@@ -1,25 +1,58 @@
 <div class="container">
     <div class="row">
-        <h1 class="col text-center">APOD - A Picture Of The Day</h1>
-
-        <!-- Display error message -->
-        <div *ngIf="errorMessage">
-            <div class="alert alert-danger text-center">
-                {{errorMessage}}
+        <h1 class="col text-center my-5">APOD - A Picture Of The Day</h1>
+    </div>
+    <!--Selection-->
+    <div class="row align-items-center justify-content-center mb-5">
+        <div *ngIf="!isChecked" class="col-12">
+            <div class="w-100">
+                <label class="form-label" for="endDate">Start Date</label>
+                <input type="date" class="form-control" id="endDate" [(ngModel)]="startDate">
             </div>
-            <div (click)="(reloadWindow())">
-                <img src="images/reloadIcon.png" alt="Error Image" class="img-fluid mx-auto d-block"
-                    style="width: 25px; height: auto;">
+            <!-- <img *ngIf="picture" [src]="picture.hdurl" [style.width]="imageWidth"> -->
+        </div>
+        <div *ngIf="isChecked" class="col-12 d-flex flex-column gap-3 align-items-center">
+            <div class="w-100">
+                <label class="form-label" for="startDate">Start Date</label>
+                <input type="date" class="form-control" id="startDate" [(ngModel)]="startDate">
+            </div>
+            <div class="w-100">
+                <label class="form-label" for="endDate">End Date</label>
+                <input type="date" class="form-control" id="endDate" [(ngModel)]="endDate">
             </div>
         </div>
-
-        <div class="btn btn-primary" (click)="getPicture()">Search</div>
-        <img *ngIf="picture" [src]="picture.hdurl" [style.width]="imageWidth">
-        <div class="btn btn-primary" (click)="getPictures()">Search</div>
-        <div *ngIf="pictures">
-            <div *ngFor="let picture of pictures">
-                <img [src]="picture.hdurl" [style.width]="imageWidth">
+        <div class="col-12 d-flex justify-content-between align-items-center mt-3">
+            <div class="form-check form-switch col-6">
+                <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault"
+                    (change)="onSwitchChange($event)">
+                <label class="form-check-label" for="switchCheckDefault">Multiple Images</label>
             </div>
+            <div class="btn btn-primary" (click)="loadData()">Search</div>
+        </div>
+    </div>
+    <div class="row flex-column">
+        <div *ngFor="let picture of pictures" class="d-flex flex-column mb-5">
+            <ng-container *ngIf="picture.media_type === 'image'; else videoTemplate">
+                <img class="img-fluid mb-3" [src]="picture.url" alt="{{ picture.title }}">
+            </ng-container>
+            <ng-template #videoTemplate>
+                <div class="embed-responsive embed-responsive-16by9 mb-3 w-100">
+                    <iframe class="embed-responsive-item w-100" [src]="sanitizedURLs[picture.url]" [height]="minVideoWidth" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </ng-template>
+            <h2 class="text-start">{{ picture.title }}</h2>
+            <p class="text-start">{{ picture.explanation }}</p>
+            <p class="text-start">Date: {{ picture.date }}</p>
+        </div>
+    </div>
+    <!-- Display error message -->
+    <div *ngIf="errorMessage">
+        <div class="alert alert-danger text-center">
+            {{errorMessage}}
+        </div>
+        <div (click)="(reloadWindow())">
+            <img src="images/reloadIcon.png" alt="Error Image" class="img-fluid mx-auto d-block"
+                style="width: 25px; height: auto;">
         </div>
     </div>
 </div>
