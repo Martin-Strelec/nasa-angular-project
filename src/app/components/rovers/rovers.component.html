@@ -1,1 +1,36 @@
-<p>rovers works!</p>
+<div class="container">
+    <div class="row"> <!-- Centering the items -->
+        <h1 class="col-12 text-center my-3">Near-Miss Asteroids</h1>
+        <!-- Display error message -->
+        <div *ngIf="errorMessage">
+            <div class="alert alert-danger text-center">
+                {{errorMessage}}
+            </div>
+            <div (click)="reloadWindow()">
+                <img src="images/reloadIcon.png" alt="Error Image" class="img-fluid mx-auto d-block"
+                    style="width: 25px; height: auto;">
+            </div>
+        </div>
+        <div class="row justify-content-center my-3">
+            <div class="col-3" *ngFor="let photo of roverPhotosFHAZ?.photos">
+                <a href="{{photo.img_src}}" class="text-decoration-none">
+                    <img [src]="photo.img_src" class="img-fluid" alt="Epic Image" style="width: 100%; height: auto;">
+                </a>    
+            </div>
+        </div>
+        <div class="row justify-content-center my-3">
+            <div class="col-3" *ngFor="let photo of roverPhotosRHAZ?.photos">
+                <a href="{{photo.img_src}}" class="text-decoration-none">
+                    <img [src]="photo.img_src" class="img-fluid" alt="Epic Image" style="width: 100%; height: auto;">
+                </a>    
+            </div>
+        </div>
+        <div class="row justify-content-center my-3">
+            <div class="col-3" *ngFor="let photo of roverPhotosNAVCAM?.photos">
+                <a href="{{photo.img_src}}" class="text-decoration-none">
+                    <img [src]="photo.img_src" class="img-fluid" alt="Epic Image" style="width: 100%; height: auto;">
+                </a>    
+            </div>
+        </div>
+    </div>
+</div>
