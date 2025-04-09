@@ -39,11 +39,11 @@ export class ApodComponent {
 
   onSwitchChange(event: Event) {
     this.isChecked = (event.target as HTMLInputElement).checked;
-    this.pictures = []; // Clear the pictures array when the switch is toggled
     console.log('Switch is ' + (this.isChecked ? 'ON' : 'OFF'));
   }
 
   loadData() {
+    this.pictures = []; // Clear the pictures array when the switch is toggled
     if (this.isChecked) {
       console.log(this.startDate, this.endDate);
       this.getPictures(this.startDate, this.endDate);
