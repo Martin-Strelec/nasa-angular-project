@@ -36,9 +36,13 @@ export class ApodComponent {
     this.endDate = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
     this.startDate = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
 
-    if (this.simpleCache.items.length) {
+    if (this.simpleCache.items.length && this.areItemsApods(this.simpleCache.items)) {
       this.pictures = this.simpleCache.items;
       this.sanitizedURLs = this.simpleCache.sanitizedURLs;
+    }
+    else {
+      this.pictures = []; // Initialize to an empty array if the cache is empty or invalid
+      this.simpleCache.items = []; // Clear the cache if it's invalid
     }
   }
 
@@ -46,6 +50,18 @@ export class ApodComponent {
     this.isChecked = (event.target as HTMLInputElement).checked;
     console.log('Switch is ' + (this.isChecked ? 'ON' : 'OFF'));
   }
+
+  private areItemsApods(items: any[]): items is Apod[] {
+      return items.every(item => this.isApod(item));
+    }
+
+  private isApod(item: any): item is Apod {
+      return item && 
+      typeof item.date === 'string' && 
+      typeof item.title === 'string' &&
+      typeof item.explanation === 'string' &&
+      typeof item.url === 'string'
+    } 
 
   loadData() {
     this.pictures = []; // Clear the pictures array when the button is clicked
