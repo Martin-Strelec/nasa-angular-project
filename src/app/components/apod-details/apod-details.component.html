@@ -1,7 +1,7 @@
-<div class="container mt-5">
+<div class="container py-3">
     <div class="row justify-content-center">
         <!-- Display error message -->
-        <div *ngIf="errorMessage" class="col-md-8">
+        <div *ngIf="errorMessage" class="col-md-9">
             <div class="alert alert-danger text-center">
                 {{ errorMessage }}
             </div>
@@ -13,7 +13,7 @@
         </div>
 
         <!-- Display APOD details -->
-        <div *ngIf="apodDetails" class="col-md-9">
+        <div *ngIf="apodDetails" class="col-md-6">
             <div class="card shadow rounded-4">
                 <div class="card-body">
                     <h2 class="card-title text-center mb-3">{{ apodDetails.title }}</h2>
@@ -21,12 +21,16 @@
                     <div class="text-center mb-4">
                         <div *ngIf="apodDetails.media_type === 'image'">
                             <ng-container *ngIf="apodDetails.hdurl; else noHdUrlTemplate">
-                                <img [src]="apodDetails.hdurl" [alt]="apodDetails.title"
-                                    class="img-fluid rounded" />
+                                <a [href]="apodDetails.hdurl" target="_blank" class="text-decoration-none">
+                                    <img [src]="apodDetails.url" [alt]="apodDetails.title"
+                                        class="img-fluid rounded" />
+                                </a>
                             </ng-container>
                             <ng-template #noHdUrlTemplate>
+                                <a [href]="apodDetails.url" target="_blank" class="text-decoration-none">
                                 <img [src]="apodDetails.url" [alt]="apodDetails.title"
                                     class="img-fluid rounded" />
+                                </a>
                             </ng-template>
                         </div>
                         <div *ngIf="apodDetails.media_type === 'video'" class="ratio ratio-16x9">

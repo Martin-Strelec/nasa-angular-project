@@ -1,64 +1,83 @@
-<div class="container ">
-  <div class="row">
-    <!-- Display error message -->
-    <div *ngIf="errorMessage">
-      <div class="alert alert-danger text-center">
-        {{errorMessage}}
-      </div>
-      <div (click)="reloadWindow()">
-        <img src="images/reloadIcon.png" alt="Error Image" class="img-fluid mx-auto d-block"
-          style="width: 25px; height: auto;">
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="col-12 mb-4">
+      <div class="alert alert-danger text-center shadow-sm">
+        {{ errorMessage }}
+        <div class="mt-2 cursor-pointer" (click)="reloadWindow()">
+          <img src="images/reloadIcon.png" alt="Reload" class="img-fluid mx-auto d-block" style="width: 25px;">
+        </div>
       </div>
     </div>
-    <div *ngIf="asteroidDetails">
-      <h2>{{ asteroidDetails.name }} {{ asteroidDetails.designation }}</h2>
-      <p><strong>Asteroid ID:</strong> {{ asteroidDetails.id }}</p>
-      <p><strong>NEO Reference ID:</strong> {{ asteroidDetails.neo_reference_id }}</p>
-      <p><strong>NASA JPL URL:</strong> <a [href]="asteroidDetails.nasa_jpl_url" target="_blank">View on NASA</a></p>
-      <p><strong>Absolute Magnitude (H):</strong> {{ asteroidDetails.absolute_magnitude_h }}</p>
 
-      <h3>Estimated Diameter</h3>
-      <ul>
-        <li><strong>Kilometers:</strong> {{ asteroidDetails.estimated_diameter.kilometers.estimated_diameter_min }} - {{
-          asteroidDetails.estimated_diameter.kilometers.estimated_diameter_max }} km</li>
-        <li><strong>Meters:</strong> {{ asteroidDetails.estimated_diameter.meters.estimated_diameter_min }} - {{
-          asteroidDetails.estimated_diameter.meters.estimated_diameter_max }} m</li>
-        <li><strong>Miles:</strong> {{ asteroidDetails.estimated_diameter.miles.estimated_diameter_min }} - {{
-          asteroidDetails.estimated_diameter.miles.estimated_diameter_max }} mi</li>
-        <li><strong>Feet:</strong> {{ asteroidDetails.estimated_diameter.feet.estimated_diameter_min }} - {{
-          asteroidDetails.estimated_diameter.feet.estimated_diameter_max }} ft</li>
-      </ul>
+    <!-- Asteroid Details -->
+    <div *ngIf="asteroidDetails" class="col-lg-10">
+      <div class="card shadow mb-4">
+        <div class="card-body">
+          <h2 class="card-title text-center">{{ asteroidDetails.name }} {{ asteroidDetails.designation }}</h2>
+          <p><strong>Asteroid ID:</strong> {{ asteroidDetails.id }}</p>
+          <p><strong>NEO Reference ID:</strong> {{ asteroidDetails.neo_reference_id }}</p>
+          <p><strong>NASA JPL URL: </strong>
+            <a [href]="asteroidDetails.nasa_jpl_url" target="_blank">View on NASA</a>
+          </p>
+          <p><strong>Absolute Magnitude (H):</strong> {{ asteroidDetails.absolute_magnitude_h }}</p>
+        </div>
+      </div>
 
-      <p><strong>Potentially Hazardous:</strong> {{ asteroidDetails.is_potentially_hazardous_asteroid ? 'Yes' : 'No' }}
-      </p>
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <h4>Estimated Diameter</h4>
+          <ul class="mb-0">
+            <li><strong>Kilometers:</strong> {{ asteroidDetails.estimated_diameter.kilometers.estimated_diameter_min }} - {{ asteroidDetails.estimated_diameter.kilometers.estimated_diameter_max }} km</li>
+            <li><strong>Meters:</strong> {{ asteroidDetails.estimated_diameter.meters.estimated_diameter_min }} - {{ asteroidDetails.estimated_diameter.meters.estimated_diameter_max }} m</li>
+            <li><strong>Miles:</strong> {{ asteroidDetails.estimated_diameter.miles.estimated_diameter_min }} - {{ asteroidDetails.estimated_diameter.miles.estimated_diameter_max }} mi</li>
+            <li><strong>Feet:</strong> {{ asteroidDetails.estimated_diameter.feet.estimated_diameter_min }} - {{ asteroidDetails.estimated_diameter.feet.estimated_diameter_max }} ft</li>
+          </ul>
+          <p class="mt-2"><strong>Potentially Hazardous:</strong> {{ asteroidDetails.is_potentially_hazardous_asteroid ? 'Yes' : 'No' }}</p>
+        </div>
+      </div>
 
-      <h3>Close Approach Data</h3>
-      <ul class="overflow-auto" style="max-height: 300px;">
-        <li *ngFor="let approach of asteroidDetails.close_approach_data">
-          <p><strong>Date:</strong> {{ approach.close_approach_date_full }}</p>
-          <p><strong>Relative Velocity:</strong> {{ approach.relative_velocity.kilometers_per_hour }} km/h</p>
-          <p><strong>Miss Distance:</strong> {{ approach.miss_distance.kilometers }} km</p>
-          <p><strong>Orbiting Body:</strong> {{ approach.orbiting_body }}</p>
-        </li>
-      </ul>
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <h4>Close Approach Data</h4>
+          <div class="list-group overflow-auto" style="max-height: 300px;">
+            <div *ngFor="let approach of asteroidDetails.close_approach_data" class="list-group-item list-group-item-action flex-column align-items-start">
+              <div>
+                <p class="mb-1"><strong>Date:</strong> {{ approach.close_approach_date_full }}</p>
+                <p class="mb-1"><strong>Relative Velocity:</strong> {{ approach.relative_velocity.kilometers_per_hour }} km/h</p>
+                <p class="mb-1"><strong>Miss Distance:</strong> {{ approach.miss_distance.kilometers }} km</p>
+                <p class="mb-0"><strong>Orbiting Body:</strong> {{ approach.orbiting_body }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <h3>Orbital Data</h3>
-      <ul>
-        <li><strong>Orbit ID:</strong> {{ asteroidDetails.orbital_data.orbit_id }}</li>
-        <li><strong>Determination Date:</strong> {{ asteroidDetails.orbital_data.orbit_determination_date }}</li>
-        <li><strong>First Observation:</strong> {{ asteroidDetails.orbital_data.first_observation_date }}</li>
-        <li><strong>Last Observation:</strong> {{ asteroidDetails.orbital_data.last_observation_date }}</li>
-        <li><strong>Data Arc (days):</strong> {{ asteroidDetails.orbital_data.data_arc_in_days }}</li>
-        <li><strong>Observations Used:</strong> {{ asteroidDetails.orbital_data.observations_used }}</li>
-        <li><strong>Eccentricity:</strong> {{ asteroidDetails.orbital_data.eccentricity }}</li>
-        <li><strong>Orbital Period:</strong> {{ asteroidDetails.orbital_data.orbital_period }} days</li>
-        <li><strong>Perihelion Distance:</strong> {{ asteroidDetails.orbital_data.perihelion_distance }}</li>
-        <li><strong>Aphelion Distance:</strong> {{ asteroidDetails.orbital_data.aphelion_distance }}</li>
-      </ul>
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <h4>Orbital Data</h4>
+          <ul class="mb-0">
+            <li><strong>Orbit ID:</strong> {{ asteroidDetails.orbital_data.orbit_id }}</li>
+            <li><strong>Determination Date:</strong> {{ asteroidDetails.orbital_data.orbit_determination_date }}</li>
+            <li><strong>First Observation:</strong> {{ asteroidDetails.orbital_data.first_observation_date }}</li>
+            <li><strong>Last Observation:</strong> {{ asteroidDetails.orbital_data.last_observation_date }}</li>
+            <li><strong>Data Arc (days):</strong> {{ asteroidDetails.orbital_data.data_arc_in_days }}</li>
+            <li><strong>Observations Used:</strong> {{ asteroidDetails.orbital_data.observations_used }}</li>
+            <li><strong>Eccentricity:</strong> {{ asteroidDetails.orbital_data.eccentricity }}</li>
+            <li><strong>Orbital Period:</strong> {{ asteroidDetails.orbital_data.orbital_period }} days</li>
+            <li><strong>Perihelion Distance:</strong> {{ asteroidDetails.orbital_data.perihelion_distance }}</li>
+            <li><strong>Aphelion Distance:</strong> {{ asteroidDetails.orbital_data.aphelion_distance }}</li>
+          </ul>
+        </div>
+      </div>
 
-      <h3>Orbit Class</h3>
-      <p><strong>Type:</strong> {{ asteroidDetails.orbital_data.orbit_class.orbit_class_type }}</p>
-      <p><strong>Description:</strong> {{ asteroidDetails.orbital_data.orbit_class.orbit_class_description }}</p>
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h4>Orbit Class</h4>
+          <p><strong>Type:</strong> {{ asteroidDetails.orbital_data.orbit_class.orbit_class_type }}</p>
+          <p><strong>Description:</strong> {{ asteroidDetails.orbital_data.orbit_class.orbit_class_description }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
