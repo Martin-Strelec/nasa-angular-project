@@ -8,6 +8,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { ApodService } from '../../services/apod.service';
 import { Apod } from '../../models/apod';
+import { SimpleCacheService } from '../../services/simple-cache.service';
 
 @Component({
   selector: 'app-apod',
@@ -16,16 +17,15 @@ import { Apod } from '../../models/apod';
   styleUrl: './apod.component.css'
 })
 export class ApodComponent {
-  pictures: Apod[] = []
+  pictures: Apod[] = [];
   errorMessage: string = '';
-  imageWidth: string = "600px";
-  minVideoWidth: string = "300px";
+  imageHeight: string = "400px";
   isChecked: boolean = false;
   startDate: string = '';
   endDate: string = '';
   sanitizedURLs: { [key: string]: SafeResourceUrl } = {};
 
-  constructor(private _apodService: ApodService, private sanitizer: DomSanitizer) { }
+  constructor(private _apodService: ApodService, private sanitizer: DomSanitizer, private simpleCache: SimpleCacheService) { }
 
   reloadWindow() {
     window.location.reload();
@@ -35,6 +35,11 @@ export class ApodComponent {
     const today = new Date();
     this.endDate = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
     this.startDate = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+
+    if (this.simpleCache.items.length) {
+      this.pictures = this.simpleCache.items;
+      this.sanitizedURLs = this.simpleCache.sanitizedURLs;
+    }
   }
 
   onSwitchChange(event: Event) {
@@ -43,7 +48,9 @@ export class ApodComponent {
   }
 
   loadData() {
-    this.pictures = []; // Clear the pictures array when the switch is toggled
+    this.pictures = []; // Clear the pictures array when the button is clicked
+    this.simpleCache.items = []; // Clear the cache when the button is clicked
+    this.simpleCache.sanitizedURLs = {}; // Clear the sanitized URLs cache
     if (this.isChecked) {
       console.log(this.startDate, this.endDate);
       this.getPictures(this.startDate, this.endDate);
@@ -65,7 +72,9 @@ export class ApodComponent {
       ).subscribe(
         picture => {
           this.pictures?.push(picture);
+          this.simpleCache.items.push(picture); // Cache the picture
           this.sanitizeURLs(); // Sanitize URLs after fetching the pictures
+          this.simpleCache.sanitizedURLs = this.sanitizedURLs; // Update the cache with sanitized URLs
           console.log(JSON.stringify(picture));
         }
       )
@@ -82,7 +91,9 @@ export class ApodComponent {
       .subscribe(
         pictures => {
           this.pictures = pictures;
+          this.simpleCache.items = pictures; // Cache the pictures
           this.sanitizeURLs(); // Sanitize URLs after fetching the pictures
+          this.simpleCache.sanitizedURLs = this.sanitizedURLs; // Update the cache with sanitized URLs
           console.log(JSON.stringify(pictures));
         }
       )

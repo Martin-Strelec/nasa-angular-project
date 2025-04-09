@@ -32,7 +32,7 @@
     </div>
     <div class="row row-cols-lg-3 justify-content-between g-3 pb-3">
         <div *ngFor="let picture of pictures" class="col">
-            <div class="card col h-100">
+            <div class="card shadow col h-100">
                 <ng-container *ngIf="picture.media_type === 'image'; else videoTemplate">
                     <img class="car-img-top rounded-2" [src]="picture.url" alt="{{ picture.title }}">
                 </ng-container>
