@@ -1,0 +1,46 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <!-- Display error message -->
+        <div *ngIf="errorMessage" class="col-md-8">
+            <div class="alert alert-danger text-center">
+                {{ errorMessage }}
+            </div>
+            <div class="text-center mt-2">
+                <img src="images/reloadIcon.png" alt="Reload Icon" class="img-fluid"
+                    style="width: 30px; cursor: pointer;" (click)="reloadWindow()" />
+                <p class="text-muted small mt-1">Click to reload</p>
+            </div>
+        </div>
+
+        <!-- Display APOD details -->
+        <div *ngIf="apodDetails" class="col-md-9">
+            <div class="card shadow rounded-4">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-3">{{ apodDetails.title }}</h2>
+                    <p class="text-center text-muted"><strong>Date:</strong> {{ apodDetails.date }}</p>
+                    <div class="text-center mb-4">
+                        <div *ngIf="apodDetails.media_type === 'image'">
+                            <ng-container *ngIf="apodDetails.hdurl; else noHdUrlTemplate">
+                                <img [src]="apodDetails.hdurl" [alt]="apodDetails.title"
+                                    class="img-fluid rounded" />
+                            </ng-container>
+                            <ng-template #noHdUrlTemplate>
+                                <img [src]="apodDetails.url" [alt]="apodDetails.title"
+                                    class="img-fluid rounded" />
+                            </ng-template>
+                        </div>
+                        <div *ngIf="apodDetails.media_type === 'video'" class="ratio ratio-16x9">
+                            <iframe [src]="sanitizedVideoUrl" frameborder="0" allowfullscreen class="rounded">
+                            </iframe>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="card-text"> Description</h2>
+                        <p class="card-text">{{ apodDetails.explanation }}</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
