@@ -50,7 +50,7 @@ export class EpicComponent implements AfterViewInit {
     this.getActiveSlideModel();
   }
 
-  getActiveSlideModel(): void {
+  getActiveSlideModel():  void{
     const activeEl = this.carousel.nativeElement.querySelector('.carousel-item.active');
     const index = parseInt(activeEl?.getAttribute('data-index'), 10);
 
@@ -68,7 +68,7 @@ export class EpicComponent implements AfterViewInit {
   loadData() {
     this.EPICs = []; // Clear the pictures array when the button is clicked
     console.log(this.date)
-    this.getEPICs(this.imageType,this.date);  // 
+    this.getEPICs(this.imageType,this.date);
   }
 
 
@@ -95,7 +95,6 @@ export class EpicComponent implements AfterViewInit {
             return; // Exit if no images are found
           }
           this.EPICs = response;
-          this.currentEPIC = response[0]; // Set the first EPIC as the current one
           console.log(response);
           this.errorMessage = ''; // Clear error message on success
           this.getPictures(this.EPICs, imageType);
