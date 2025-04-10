@@ -1,21 +1,58 @@
-<div class="container">
-    <h1 class="text-center my-5">EPIC Images</h1>
+<div class="container py-3">
+    <div class="row my-3 mx-1">
+        <h1 class="text-center">EPIC Images</h1>
+    </div>
+    <!--Selection-->
+    <div class="row my-3 mx-1">
+        <!-- Display error message -->
+        <div *ngIf="errorMessage">
+            <div class="alert alert-danger text-center">
+                {{errorMessage}}
+            </div>
+            <div (click)="reloadWindow()">
+                <img src="images/reloadIcon.png" alt="Error Image" class="img-fluid mx-auto d-block"
+                    style="width: 25px; height: auto;">
+            </div>
+        </div>
+        <div class="w-100">
+            <label class="form-label" for="date">Date</label>
+            <input type="date" class="form-control" id="date" [(ngModel)]="date">
+        </div>
+        <div class="col-12 d-flex justify-content-end my-2">
+            <div class="btn btn-primary" (click)="loadData()">Search</div>
+        </div>
+    </div>
 
-    <!-- Display error message -->
-    <div *ngIf="errorMessage">
-        <div class="alert alert-danger text-center">
-            {{errorMessage}}
+    <div class="row g-3 mx-1 justify-content-between">
+        <div class="col-md-6">
+            <div id="carouselExampleCaptions" #carouselElement class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button *ngFor="let epic of EPICs; let i = index" type="button"
+                        data-bs-target="#carouselExampleCaptions" [attr.data-bs-slide-to]="i" class="active"
+                        aria-current="true" [attr.aria-label]="'Slide ' + i" [class.active]="i === 0"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div *ngFor="let epic of EPICs; let i = index;" class="carousel-item" [class.active]="i === 0" [attr.data-index]="i">
+                        <img src="{{epic.imageUrl}}" class="d-block w-100 rounded-2" alt="{{epic.image}}">
+                        <div class="carousel-caption d-none d-md-block" style="background-color: rgba(0, 0, 0, 0.5);">
+                            <h5>{{epic.identifier}}</h5>
+                            <p>{{epic.date}}</p>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
         </div>
-        <div (click)="reloadWindow()">
-            <img src="images/reloadIcon.png" alt="Error Image" class="img-fluid mx-auto d-block" style="width: 25px; height: auto;">
+        <div class="col-md-6">
+            <app-epic-details [epic]="currentEPIC"></app-epic-details>
         </div>
     </div>
-    
-    <div class="row justify-content-center">
-        <div class="col-3" *ngFor="let epic of EPICs">
-            <a href="{{epic.imageUrl}}" class="text-decoration-none">
-                <img [src]="epic.imageUrl" class="img-fluid" alt="Epic Image" style="width: 100%; height: auto;">
-            </a>    
-        </div>
-    </div>
-</div>
