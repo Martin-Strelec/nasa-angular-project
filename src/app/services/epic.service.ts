@@ -15,7 +15,6 @@ export class EpicService {
   constructor(private _http: HttpClient) { }
 
   getEPICMetadata(date: string, imageType: string): Observable<EPIC[]> {
-    console.log(`${this._apiEPICMetadata}${imageType}/date/${date}?api_key=${this._apiKey}`);
     return this._http.get<EPIC[]>(`${this._apiEPICMetadata}${imageType}/date/${date}?api_key=${this._apiKey}`);
   }
 }
