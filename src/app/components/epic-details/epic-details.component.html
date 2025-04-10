@@ -1,0 +1,60 @@
+<div class="container" *ngIf="epic">
+    <div class="card shadow-sm">
+      <div class="row g-0">
+        <div class="col">
+          <div class="card-body">
+            <h5 class="card-title">{{ epic.caption }}</h5>
+            <p class="card-text text-muted"><small>Date: {{ epic.date }} | Version: {{ epic.version }}</small></p>
+  
+            <hr>
+  
+            <h6>Identifier</h6>
+            <p><code>{{ epic.identifier }}</code></p>
+  
+            <h6>Coordinates</h6>
+            <ul class="list-unstyled mb-2">
+              <li><strong>Lat:</strong> {{ epic.centroid_coordinates.lat }}</li>
+              <li><strong>Lon:</strong> {{ epic.centroid_coordinates.lon }}</li>
+            </ul>
+  
+            <h6 class="mt-3">J2000 Positions</h6>
+            <div class="row justify-content-center">
+              <div class="col-4">
+                <strong>DSCOVR:</strong>
+                <ul class="list-unstyled small">
+                  <li>X: {{ epic.dscovr_j2000_position.x }}</li>
+                  <li>Y: {{ epic.dscovr_j2000_position.y }}</li>
+                  <li>Z: {{ epic.dscovr_j2000_position.z }}</li>
+                </ul>
+              </div>
+              <div class="col-4">
+                <strong>Lunar:</strong>
+                <ul class="list-unstyled small">
+                  <li>X: {{ epic.lunar_j2000_position.x }}</li>
+                  <li>Y: {{ epic.lunar_j2000_position.y }}</li>
+                  <li>Z: {{ epic.lunar_j2000_position.z }}</li>
+                </ul>
+              </div>
+              <div class="col-4">
+                <strong>Sun:</strong>
+                <ul class="list-unstyled small">
+                  <li>X: {{ epic.sun_j2000_position.x }}</li>
+                  <li>Y: {{ epic.sun_j2000_position.y }}</li>
+                  <li>Z: {{ epic.sun_j2000_position.z }}</li>
+                </ul>
+              </div>
+            </div>
+  
+            <h6 class="mt-3">Attitude Quaternions</h6>
+            <ul class="list-unstyled small">
+              <li>q0: {{ epic.attitude_quaternions.q0 }}</li>
+              <li>q1: {{ epic.attitude_quaternions.q1 }}</li>
+              <li>q2: {{ epic.attitude_quaternions.q2 }}</li>
+              <li>q3: {{ epic.attitude_quaternions.q3 }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
