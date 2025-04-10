@@ -1,0 +1,45 @@
+<div class="container" *ngIf="photoManifest">
+    <!-- Rover Info Card -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <h2 class="card-title">{{ photoManifest.name }}</h2>
+        <p class="card-text">
+          <strong>Landing Date:</strong> {{ photoManifest.landing_date }}<br />
+          <strong>Launch Date:</strong> {{ photoManifest.launch_date }}<br />
+          <strong>Status:</strong> 
+          <span [ngClass]="{
+            'text-success': photoManifest.status === 'active',
+            'text-danger': photoManifest.status !== 'active'
+          }">{{ photoManifest.status | titlecase }}</span><br />
+          <strong>Total Photos:</strong> {{ photoManifest.total_photos }}<br />
+          <strong>Latest Sol:</strong> {{ photoManifest.max_sol }} ({{ photoManifest.max_date }})
+        </p>
+      </div>
+    </div>
+  
+    <!-- Rover Photos List -->
+    <div class="card shadow-sm">
+      <div class="card-header">
+        <h4 class="mb-0">Photos by Sol & Camera</h4>
+      </div>
+      <div class="card-body p-0">
+        <div class="list-group overflow-auto" style="max-height: 400px;">
+          <div *ngFor="let photo of photoManifest.photos" class="list-group-item list-group-item-action">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h5 class="mb-1">Sol {{ photo.sol }}</h5>
+                <p class="mb-1">
+                  <strong>Total Photos:</strong> {{ photo.total_photos }}
+                </p>
+                <div>
+                  <strong>Cameras Used:</strong>
+                  <span *ngFor="let cam of photo.cameras" class="badge bg-secondary me-1">{{ cam }}</span>
+                </div>
+              </div>
+              <i class="bi bi-camera fs-3 text-secondary"></i> <!-- Bootstrap icon (optional) -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
