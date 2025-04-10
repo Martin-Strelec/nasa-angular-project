@@ -1,4 +1,4 @@
-export interface Root {
+export interface PhotoRoot {
     photos: RoverPhoto[]
   }
   
@@ -8,7 +8,6 @@ export interface Root {
     camera: Camera
     img_src: string
     earth_date: string
-    rover: Rover
   }
   
   export interface Camera {
@@ -18,11 +17,25 @@ export interface Root {
     full_name: string
   }
   
-  export interface Rover {
-    id: number
+  export interface RoverRoot {
+    photo_manifest: PhotoManifest
+  }
+  
+  export interface PhotoManifest {
     name: string
     landing_date: string
     launch_date: string
     status: string
+    max_sol: number
+    max_date: string
+    total_photos: number
+    photos: Photo[]
+  }
+  
+  export interface Photo {
+    sol: number
+    earth_date: string
+    total_photos: number
+    cameras: string[]
   }
   
