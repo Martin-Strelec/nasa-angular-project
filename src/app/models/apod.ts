@@ -6,4 +6,6 @@ export interface Apod {
     service_version: string,
     title: string,
     url: string
+    loaded?: boolean
+    error?: boolean
 }
