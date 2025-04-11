@@ -17,6 +17,7 @@ import { RoverDetailsComponent } from "../rover-details/rover-details.component"
   styleUrl: './rovers.component.css'
 })
 export class RoversComponent {
+  picturesErrorMessage = '';
   errorMessage: string = '';
   isChecked: boolean = false;
   sol: number = 1;
@@ -24,7 +25,7 @@ export class RoversComponent {
   roverName: string = "curiosity";
   photos: RoverPhoto[] = [];
   groupedPhotos: { [key: string]: RoverPhoto[] } = {};
-  currentManifest!: PhotoManifest;
+  currentManifest: PhotoManifest | null = null;
 
   constructor(private _roversService: RoversService) { }
   
@@ -40,6 +41,8 @@ export class RoversComponent {
   }
 
   onSwitchChange(event: Event) {
+    this.resetValues();
+
     this.isChecked = (event.target as HTMLInputElement).checked;
     console.log('Switch is ' + (this.isChecked ? 'ON' : 'OFF'));
   }
@@ -58,9 +61,7 @@ export class RoversComponent {
   }
 
   loadData() {
-    this.photos = [];
-    this.groupedPhotos = {};
-    this.currentManifest = {} as PhotoManifest;
+    this.resetValues();
     if (this.isChecked) {
       console.log('Fetching images by sol:', this.sol);
       this.getRoverPhotosBySol(this.roverName, this.sol);
@@ -70,6 +71,25 @@ export class RoversComponent {
       this.getRoverPhotosByDate(this.roverName, this.date);
     }
     this.getRoverManifest(this.roverName);
+  }
+
+  onImageLoad(photo: any) {
+    console.log('Image loaded:', photo.img_src);
+    // You could set a flag or update UI here
+    photo.loaded = true;
+  }
+  
+  onImageError(photo: any) {
+    console.warn('Failed to load image:', photo.img_src);
+    photo.error = true;
+  }
+
+  resetValues() {
+    this.picturesErrorMessage = '';
+    this.errorMessage = '';
+    this.photos = [];
+    this.groupedPhotos = {};
+    this.currentManifest = null;
   }
 
   getRoverPhotosByDate(roverName: string, date: string): void {
@@ -85,7 +105,7 @@ export class RoversComponent {
           next: (response: PhotoRoot) => {
             console.log('Rover metadata:', response);
             if (response.photos.length === 0) {
-              this.errorMessage = 'No images found for the selected date.';
+              this.picturesErrorMessage = 'No images found for the selected date.';
               return;
             }
             this.groupedPhotos = this.groupPhotosByCamera(response.photos);
@@ -109,7 +129,7 @@ export class RoversComponent {
           next: (response: PhotoRoot) => {
             console.log(response);
             if (response.photos.length === 0) {
-              this.errorMessage = 'No images found for the selected date.';
+              this.picturesErrorMessage = 'No images found for the selected date.';
               return;
             }
             this.groupedPhotos = this.groupPhotosByCamera(response.photos);
