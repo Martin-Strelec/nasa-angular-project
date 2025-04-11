@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './gallery.component.css'
 })
 export class GalleryComponent {
-
+  // Properties
   images: string[] = [];
 
 }
