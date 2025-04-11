@@ -35,7 +35,7 @@
                 <div class="card-body"> <!-- Centering text inside the card -->
                     <h5 class="card-title">{{ asteroid.name }}</h5>
                     <p class="card-text">Dangerous: {{asteroid.is_potentially_hazardous_asteroid ? 'Yes' : 'No'}}</p>
-                    <a [routerLink]="['/asteroid-details',asteroid.id]" class="btn btn-light">Details</a>
+                    <a [routerLink]="['/asteroid-details',asteroid.id]" class="btn btn-outline-dark">Details</a>
                 </div>
             </div>
         </div>
