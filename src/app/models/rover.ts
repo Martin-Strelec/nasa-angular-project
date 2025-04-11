@@ -8,6 +8,8 @@ export interface PhotoRoot {
     camera: Camera
     img_src: string
     earth_date: string
+    loaded: boolean
+    error: boolean
   }
   
   export interface Camera {

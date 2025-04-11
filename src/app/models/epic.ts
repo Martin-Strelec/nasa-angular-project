@@ -11,6 +11,8 @@ export interface EPIC {
   date: string
   coords?: string
   imageUrl: string
+  loaded: boolean
+  error: boolean
 }
 
 export interface CentroidCoordinates {
