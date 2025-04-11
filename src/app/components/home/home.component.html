@@ -1,10 +1,12 @@
 <div class="container py-3">
+    <!--Heading-->
     <div class="row mb-3">
         <h1 class="text-center">Welcome to the NASA Image Hub!</h1>
     </div>
     <div class="row g-3">
+        <!--Navigation cards-->
         <div class="col-md-6">
-            <a [routerLink]="['/apod']" style="text-decoration: none;">
+            <a [routerLink]="['/asteroids']" style="text-decoration: none;">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Asteroid View</h5>
@@ -60,7 +62,7 @@
             </a>
         </div>
         <div class="col-md-6">
-            <a [routerLink]="['/apod']" style="text-decoration: none;">
+            <a [routerLink]="['/rovers']" style="text-decoration: none;">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Mars Rovers</h5>

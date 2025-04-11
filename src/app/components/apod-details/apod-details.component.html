@@ -14,11 +14,13 @@
 
         <!-- Display APOD details -->
         <div *ngIf="apodDetails" class="col-md-6">
+            <!-- Card for APOD details -->
             <div class="card shadow rounded-4">
                 <div class="card-body">
                     <h2 class="card-title text-center mb-3">{{ apodDetails.title }}</h2>
                     <p class="text-center text-muted"><strong>Date:</strong> {{ apodDetails.date }}</p>
                     <div class="text-center mb-4">
+                        <!-- Switch between image and video display -->
                         <div *ngIf="apodDetails.media_type === 'image'">
                             <ng-container *ngIf="apodDetails.hdurl; else noHdUrlTemplate">
                                 <a [href]="apodDetails.hdurl" target="_blank" class="text-decoration-none">

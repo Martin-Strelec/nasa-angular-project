@@ -15,6 +15,7 @@ import { Apod } from '../../models/apod';
   styleUrl: './apod-details.component.css'
 })
 export class ApodDetailsComponent {
+  // Properties
   apodDate?: string | null
   apodDetails?: Apod;
   errorMessage: string = '';
@@ -29,10 +30,12 @@ export class ApodDetailsComponent {
     this.fetchDetails(this.apodDate!);
   }
 
+  // Function to reload the window
   reloadWindow() {
     window.location.reload();
   }
 
+  // Calling APOD Service to fetch APOD details
   fetchDetails(apodDate: string) {
     if (apodDate) {
       this._apodService.getSingleAPOD(apodDate)

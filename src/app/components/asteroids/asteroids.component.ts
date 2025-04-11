@@ -16,6 +16,7 @@ import { SimpleCacheService } from '../../services/simple-cache.service';
   styleUrl: './asteroids.component.css'
 })
 export class AsteroidsComponent implements OnInit {
+  // Properties
   asteroids: Asteroid[] = [];
   neoData: Asteroid[] = [];
   startDate: string = '';
@@ -28,7 +29,8 @@ export class AsteroidsComponent implements OnInit {
     const today = new Date();
     this.endDate = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
     this.startDate = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
-
+    
+    // Set the current items from the items in the cache
     if (this.simpleCache.items.length && this.areItemsAsteroids(this.simpleCache.items)) {
       this.asteroids = this.simpleCache.items;
     }
@@ -38,10 +40,12 @@ export class AsteroidsComponent implements OnInit {
     }
   }
 
+  // Function to reload the window
   reloadWindow() {
     window.location.reload();
   }
 
+  // TypeGuard
   private isAsteroid(item: any): item is Asteroid {
     return item && 
     typeof item.name === 'string' && 
@@ -50,10 +54,12 @@ export class AsteroidsComponent implements OnInit {
     typeof item.is_potentially_hazardous_asteroid === 'boolean'
   } 
 
+  // TypeGuard for an array of Asteroid objects
   private areItemsAsteroids(items: any[]): items is Asteroid[] {
     return items.every(item => this.isAsteroid(item));
   }
 
+  // Function to fetch Asteroids
   loadData() {
     this.asteroids = []; // Clear the pictures array when the button is clicked
     this.simpleCache.items = []; // Clear the cache when the button is clicked
@@ -61,11 +67,13 @@ export class AsteroidsComponent implements OnInit {
     this.getAsteroids(this.startDate, this.endDate); // Fetch data
   }
 
+  // Function to extract asteroids from the response object
   extractAsteroids(neoObject: NearEarthObjects): Asteroid[] {
     this.neoData = [];
     return Object.values(neoObject).flat();
   }
 
+  // Calling AsteroidsService to get the asteroids
   getAsteroids(startDate:string, endDate:string) {
     this._asteroidsService.getAsteroids(startDate, endDate)
       .pipe(

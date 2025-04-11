@@ -13,6 +13,7 @@ import { throwError } from 'rxjs';
   styleUrl: './asteroid-details.component.css'
 })
 export class AsteroidDetailsComponent {
+  // Properties
   asteroidId?: string | null
   asteroidDetails?: AsteroidDetails;
   errorMessage: string = '';
@@ -24,13 +25,15 @@ export class AsteroidDetailsComponent {
     this.fetchDetails(this.asteroidId!);
   }
 
+  // Function to reload the window
   reloadWindow() {
     window.location.reload();
   }
 
+  // Call the service to fetch the details of the asteroid
   fetchDetails(asteroidId: string) {
     if (this.asteroidId) {
-      this._asteroidsService.getAsteroidDetails(this.asteroidId)
+      this._asteroidsService.getAsteroidDetails(asteroidId)
       .pipe(
         catchError((error) => {
           this.errorMessage = 'Failed to fetch Asteroid details. Please try again later.';

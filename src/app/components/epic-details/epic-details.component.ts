@@ -9,5 +9,6 @@ import { EPIC } from '../../models/epic';
   styleUrl: './epic-details.component.css'
 })
 export class EpicDetailsComponent {
+  // Properties
   @Input() epic!: EPIC;
 }

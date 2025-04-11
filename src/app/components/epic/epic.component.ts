@@ -17,7 +17,7 @@ import { EpicDetailsComponent } from "../epic-details/epic-details.component";
   styleUrl: './epic.component.css'
 })
 export class EpicComponent implements AfterViewInit {
-
+  // Properties
   @ViewChild('carouselElement') carousel!: ElementRef;
 
   EPICs: EPIC[] = [];
@@ -29,15 +29,13 @@ export class EpicComponent implements AfterViewInit {
   @Output() onEpicChange:EventEmitter<EPIC>;
 
   constructor(private _epicService: EpicService) { 
-    this.onEpicChange = new EventEmitter();
+    this.onEpicChange = new EventEmitter(); // Initialize the EventEmitter
   }
-
   ngOnInit() {
     const today = new Date();
     today.setDate(today.getDate() - 2); // Set to two days back
     this.date = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
   }
-
   ngAfterViewInit() {
     const carouselEl = this.carousel.nativeElement;
 
@@ -49,18 +47,18 @@ export class EpicComponent implements AfterViewInit {
     // Initial load
     this.getActiveSlideModel();
   }
-
+  // Handles the image loading
   onImageLoad(photo: any) {
     console.log('Image loaded:', photo.img_src);
     // You could set a flag or update UI here
     photo.loaded = true;
   }
-  
+  // Hangles image loading error
   onImageError(photo: any) {
     console.warn('Failed to load image:', photo.img_src);
     photo.error = true;
   }
-
+  // Sets the current image to the active one in the carousel
   getActiveSlideModel():  void{
     const activeEl = this.carousel.nativeElement.querySelector('.carousel-item.active');
     const index = parseInt(activeEl?.getAttribute('data-index'), 10);
@@ -71,25 +69,24 @@ export class EpicComponent implements AfterViewInit {
       console.log('Active model:', this.currentEPIC);
     }
   }
-
+  // Function to reload the window
   reloadWindow() {
     window.location.reload();
   }
-
+  // Search button function
   loadData() {
     this.EPICs = []; // Clear the pictures array when the button is clicked
     console.log(this.date)
     this.getEPICs(this.imageType,this.date);
   }
-
-
-
+  // Retrieves the image URL from the EPICs array and sets it to the imageUrl property of each EPIC object
   getPictures(epics: EPIC[], imageType: string){
     epics.forEach(epic => {
       epic.imageUrl = `${environment.EPIC_ARCHIVE_URL}${imageType}/${epic.date.split(' ')[0].replace(/-/g, '/')}/png/${epic.image}.png?api_key=${environment.API_KEY}`;
     });
 
   }
+  // Calls EpicService to get the EPICs
   getEPICs(imageType: string, date: string) {
     this._epicService.getEPICMetadata(date, imageType)
       .pipe(

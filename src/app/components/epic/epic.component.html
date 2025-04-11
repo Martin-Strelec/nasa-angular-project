@@ -14,10 +14,12 @@
                     style="width: 25px; height: auto;">
             </div>
         </div>
+        <!-- Date Selection -->
         <div class="w-100">
             <label class="form-label" for="date">Date</label>
             <input type="date" class="form-control" id="date" [(ngModel)]="date">
         </div>
+        <!--Button-->
         <div class="col-12 d-flex justify-content-end my-2">
             <div class="btn btn-primary" (click)="loadData()">Search</div>
         </div>
@@ -25,6 +27,7 @@
 
     <div class="row g-3 mx-1 justify-content-between">
         <div class="col-md-6">
+            <!-- Carousel -->
             <div id="carouselExampleCaptions" #carouselElement class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
                     <button *ngFor="let epic of EPICs; let i = index" type="button"
@@ -63,6 +66,7 @@
                 </div>
             </div>
         </div>
+        <!-- EPIC Details -->
         <div class="col-md-6">
             <app-epic-details [epic]="currentEPIC"></app-epic-details>
         </div>

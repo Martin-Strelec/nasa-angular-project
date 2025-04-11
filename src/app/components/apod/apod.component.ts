@@ -17,6 +17,7 @@ import { SimpleCacheService } from '../../services/simple-cache.service';
   styleUrl: './apod.component.css'
 })
 export class ApodComponent {
+  //Properties
   pictures: Apod[] = [];
   errorMessage: string = '';
   imageHeight: string = "400px";
@@ -27,11 +28,13 @@ export class ApodComponent {
 
   constructor(private _apodService: ApodService, private sanitizer: DomSanitizer, private simpleCache: SimpleCacheService) { }
 
+  // Function to reload the window
   reloadWindow() {
     window.location.reload();
   }
 
   ngOnInit(): void {
+    // Initialize the date range to today
     const today = new Date();
     this.endDate = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
     this.startDate = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
@@ -46,15 +49,18 @@ export class ApodComponent {
     }
   }
 
+  // Function to handle switch change event
   onSwitchChange(event: Event) {
     this.isChecked = (event.target as HTMLInputElement).checked;
     console.log('Switch is ' + (this.isChecked ? 'ON' : 'OFF'));
   }
 
+  // Function to check if the items in the cache are of type Apod
   private areItemsApods(items: any[]): items is Apod[] {
       return items.every(item => this.isApod(item));
     }
 
+  // TypeGuard
   private isApod(item: any): item is Apod {
       return item && 
       typeof item.date === 'string' && 
@@ -63,6 +69,7 @@ export class ApodComponent {
       typeof item.url === 'string'
     } 
 
+  // Function to handle the button click event
   loadData() {
     this.pictures = []; // Clear the pictures array when the button is clicked
     this.simpleCache.items = []; // Clear the cache when the button is clicked
@@ -77,17 +84,20 @@ export class ApodComponent {
     }
   }
 
+  // Function to handle image load event
   onImageLoad(photo: any) {
     console.log('Image loaded:', photo.img_src);
     // You could set a flag or update UI here
     photo.loaded = true;
   }
   
+  // Function to handle image error event
   onImageError(photo: any) {
     console.warn('Failed to load image:', photo.img_src);
     photo.error = true;
   }
 
+  // Calling APOD service
   getPicture(date: string) {
     this._apodService.getSingleAPOD(date)
       .pipe(
@@ -106,6 +116,8 @@ export class ApodComponent {
         }
       )
   }
+
+  // Calling APOD service
   getPictures(startDate: string, endDate: string) {
     this._apodService.getMultipleAPOD(startDate, endDate)
       .pipe(
@@ -126,6 +138,7 @@ export class ApodComponent {
       )
   }
 
+  // Function to sanitize URLs for video embedding
   sanitizeURLs() {
     this.pictures.forEach(picture => {
       if (picture.media_type === 'video') {

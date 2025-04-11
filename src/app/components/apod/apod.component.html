@@ -14,13 +14,14 @@
                     style="width: 25px; height: auto;">
             </div>
         </div>
+        <!--Date selection-->
         <div *ngIf="!isChecked" class="col-12">
             <div class="w-100">
                 <label class="form-label" for="endDate">Start Date</label>
                 <input type="date" class="form-control" id="endDate" [(ngModel)]="startDate">
             </div>
-            <!-- <img *ngIf="picture" [src]="picture.hdurl" [style.width]="imageWidth"> -->
         </div>
+        <!--Start & End Date selection-->
         <div *ngIf="isChecked" class="col-12 d-flex flex-column gap-3 align-items-center">
             <div class="w-100">
                 <label class="form-label" for="startDate">Start Date</label>
@@ -31,18 +32,24 @@
                 <input type="date" class="form-control" id="endDate" [(ngModel)]="endDate">
             </div>
         </div>
+        <!--Options and Submit-->
         <div class="col-12 d-flex justify-content-between align-items-center mt-3">
+            <!--Switch-->
             <div class="form-check form-switch col-6">
                 <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault"
                     (change)="onSwitchChange($event)">
                 <label class="form-check-label" for="switchCheckDefault">Multiple Images</label>
             </div>
+            <!--Search button-->
             <div class="btn btn-primary" (click)="loadData()">Search</div>
         </div>
     </div>
+    <!--Display images-->
     <div class="row row-cols-lg-3 justify-content-between g-3 pb-3">
         <div *ngFor="let picture of pictures" class="col">
+            <!--Image card-->
             <div class="card shadow col h-100">
+                <!--Switch between image and video display-->
                 <ng-container *ngIf="picture.media_type === 'image'; else videoTemplate">
                     <div *ngIf="!picture.loaded && !picture.error">
                         <div class="spinner-border text-secondary" role="status">
