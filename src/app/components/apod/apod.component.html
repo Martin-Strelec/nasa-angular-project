@@ -44,7 +44,16 @@
         <div *ngFor="let picture of pictures" class="col">
             <div class="card shadow col h-100">
                 <ng-container *ngIf="picture.media_type === 'image'; else videoTemplate">
-                    <img class="car-img-top rounded-2" [src]="picture.url" alt="{{ picture.title }}">
+                    <div *ngIf="!picture.loaded && !picture.error">
+                        <div class="spinner-border text-secondary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <img class="car-img-top rounded-2" [src]="picture.url" alt="{{ picture.title }}" (load)="onImageLoad(picture)" (error)="onImageError(picture)"
+                    [hidden]="!picture.loaded || picture.error" >
+                    <div *ngIf="picture.error" class="text-danger">
+                        Failed to load image.
+                    </div>
                 </ng-container>
                 <ng-template #videoTemplate>
                     <div class="card-img-top ratio ratio-4x3">
@@ -56,7 +65,7 @@
                     <h2 class="card-text">{{picture.title}}</h2>
                     <div class="d-flex justify-content-between align-items-center">
                         <p class="card-text">{{picture.date}}</p>
-                        <a [routerLink]="['/apod-details',picture.date]" class="btn btn-light">Details</a>
+                        <a [routerLink]="['/apod-details',picture.date]" class="btn btn-outline-secondary">Details</a>
                     </div>
                 </div>
             </div>

@@ -77,6 +77,17 @@ export class ApodComponent {
     }
   }
 
+  onImageLoad(photo: any) {
+    console.log('Image loaded:', photo.img_src);
+    // You could set a flag or update UI here
+    photo.loaded = true;
+  }
+  
+  onImageError(photo: any) {
+    console.warn('Failed to load image:', photo.img_src);
+    photo.error = true;
+  }
+
   getPicture(date: string) {
     this._apodService.getSingleAPOD(date)
       .pipe(
