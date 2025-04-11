@@ -50,6 +50,17 @@ export class EpicComponent implements AfterViewInit {
     this.getActiveSlideModel();
   }
 
+  onImageLoad(photo: any) {
+    console.log('Image loaded:', photo.img_src);
+    // You could set a flag or update UI here
+    photo.loaded = true;
+  }
+  
+  onImageError(photo: any) {
+    console.warn('Failed to load image:', photo.img_src);
+    photo.error = true;
+  }
+
   getActiveSlideModel():  void{
     const activeEl = this.carousel.nativeElement.querySelector('.carousel-item.active');
     const index = parseInt(activeEl?.getAttribute('data-index'), 10);

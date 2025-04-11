@@ -33,7 +33,18 @@
                 </div>
                 <div class="carousel-inner">
                     <div *ngFor="let epic of EPICs; let i = index;" class="carousel-item" [class.active]="i === 0" [attr.data-index]="i">
-                        <img src="{{epic.imageUrl}}" class="d-block w-100 rounded-2" alt="{{epic.image}}">
+                        <div>
+                            <div *ngIf="!epic.loaded && !epic.error">
+                                <div class="spinner-border text-secondary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                            <img src="{{epic.imageUrl}}" class="d-block w-100 rounded-2" alt="{{epic.image}}"(load)="onImageLoad(epic)" (error)="onImageError(epic)"
+                            [hidden]="!epic.loaded || epic.error" >
+                            <div *ngIf="epic.error" class="text-danger">
+                                Failed to load image.
+                            </div>
+                        </div>
                         <div class="carousel-caption d-none d-md-block" style="background-color: rgba(0, 0, 0, 0.5);">
                             <h5>{{epic.identifier}}</h5>
                             <p>{{epic.date}}</p>
