@@ -1,1 +1,82 @@
-<p>home works!</p>
+<div class="container py-3">
+    <div class="row mb-3">
+        <h1 class="text-center">Welcome to the NASA Image Hub!</h1>
+    </div>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <a [routerLink]="['/apod']" style="text-decoration: none;">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Asteroid View</h5>
+                        <p class="card-text">NASA's NeoWs (Near Earth Object Web Service) API endpoint provides access
+                            to
+                            data on asteroids and comets that come close to Earth, offering details such as their size,
+                            velocity, and approach distance. It enables developers and researchers to track near-Earth
+                            objects in real time or retrieve historical data for analysis.</p>
+                    </div>
+
+                    <div class="ratio ratio-16x9">
+                        <img src="images/asteroidImage.jpg" class="card-img-bottom object-fit-cover" alt="epicImage"
+                            height="300px">
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a [routerLink]="['/epic']" style="text-decoration: none;">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">EPIC (Earth Polychromatic Imaging Camera)</h5>
+                        <p class="card-text">The Earth Polychromatic Imaging Camera (EPIC) is a high-resolution camera
+                            aboard the DSCOVR satellite, capturing full-disk images of Earth from a million miles away.
+                            It
+                            provides vital data on atmospheric conditions, ozone levels, and cloud patterns, offering a
+                            unique daily view of our planet.</p>
+                    </div>
+                    <div class="ratio ratio-16x9">
+                        <img src="images/epicImage.jpg" class="card-img-bottom object-fit-cover" alt="epicImage"
+                            height="300px">
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a [routerLink]="['/apod']" style="text-decoration: none;">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">APOD (A Picture Of The Day)</h5>
+                        <p class="card-text">NASA's APOD (Astronomy Picture of the Day) API endpoint provides daily
+                            images
+                            or photographs of space along with brief explanations written by professional astronomers.
+                            It
+                            allows developers to access a rich archive of stunning space imagery and educational content
+                            directly from NASA.</p>
+                    </div>
+                    <div class="ratio ratio-16x9">
+                        <img src="images/apodImage.jpg" class="card-img-bottom object-fit-cover" alt="apodImage"
+                            height="300px">
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a [routerLink]="['/apod']" style="text-decoration: none;">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Mars Rovers</h5>
+                        <p class="card-text">NASA's Mars Rover Photos API endpoint provides access to images captured by
+                            the
+                            Mars rovers Curiosity, Opportunity, and Spirit during their missions on the Martian surface.
+                            Users can retrieve photos by rover, Earth date, or Martian sol, making it a valuable tool
+                            for
+                            exploring Mars through the eyes of NASA's robotic explorers.</p>
+                    </div>
+                    <div class="ratio ratio-16x9">
+                        <img src="images/roverImage.jpg" class="card-img-bottom object-fit-cover" alt="roverImage"
+                            height="300px">
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
