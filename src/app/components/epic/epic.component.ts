@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, EventEmitter, Output  } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, EventEmitter, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { catchError } from 'rxjs/operators';
@@ -9,6 +9,10 @@ import { EPIC } from '../../models/epic';
 import { EpicService } from '../../services/epic.service';
 import { environment } from '../../../environments/environment.development';
 import { EpicDetailsComponent } from "../epic-details/epic-details.component";
+import { NewGalleryImage } from '../../models/galleryImage';
+import { GalleryService } from '../../services/gallery.service';
+
+declare var bootstrap: any; // declare bootstrap for TS
 
 @Component({
   selector: 'app-epic',
@@ -22,13 +26,18 @@ export class EpicComponent implements AfterViewInit {
 
   EPICs: EPIC[] = [];
   currentEPIC!: EPIC;
+  selectedEPIC!: EPIC;
   errorMessage: string = '';
   imageType: string = 'enhanced';
   date: string = '';
+  //Toast
+  toastType: string = '';
+  toastMessage: string = '';
+  toastInstance: any;
 
-  @Output() onEpicChange:EventEmitter<EPIC>;
+  @Output() onEpicChange: EventEmitter<EPIC>;
 
-  constructor(private _epicService: EpicService) { 
+  constructor(private _epicService: EpicService, private _gallery: GalleryService) {
     this.onEpicChange = new EventEmitter(); // Initialize the EventEmitter
   }
   ngOnInit() {
@@ -59,7 +68,7 @@ export class EpicComponent implements AfterViewInit {
     photo.error = true;
   }
   // Sets the current image to the active one in the carousel
-  getActiveSlideModel():  void{
+  getActiveSlideModel(): void {
     const activeEl = this.carousel.nativeElement.querySelector('.carousel-item.active');
     const index = parseInt(activeEl?.getAttribute('data-index'), 10);
 
@@ -73,14 +82,48 @@ export class EpicComponent implements AfterViewInit {
   reloadWindow() {
     window.location.reload();
   }
+  //function to save the image
+  saveImage() {
+    let newImage: NewGalleryImage;
+    if (this.selectedEPIC) {
+      newImage = new NewGalleryImage(this.selectedEPIC.imageUrl, this.selectedEPIC.date);
+      this._gallery.addImage(newImage).subscribe((response) => {
+        this.toastMessage = 'Image Saved Succesfully!'
+        this.showToast('success');
+        console.log('Image saved successfully:', response);
+      }, (error) => {
+        this.toastMessage = 'Error when saving image'
+        this.showToast('danger');
+        console.error('Error saving image:', error);
+      });
+    }
+  }
+  // fucntion to show toast
+  showToast(type: string) {
+    const toastEl = document.getElementById('liveToast');
+    if (toastEl) {
+      this.toastInstance = new bootstrap.Toast(toastEl);
+      this.toastType = type;
+      this.toastInstance?.show();
+    }
+  }
+  // function to open Modal
+  openModal(epic: EPIC) {
+      this.selectedEPIC = epic;
+      const modalElement = document.getElementById('imageModal');
+      if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+      }
+    }
   // Search button function
   loadData() {
     this.EPICs = []; // Clear the pictures array when the button is clicked
     console.log(this.date)
-    this.getEPICs(this.imageType,this.date);
+    this.getEPICs(this.imageType, this.date);
   }
   // Retrieves the image URL from the EPICs array and sets it to the imageUrl property of each EPIC object
-  getPictures(epics: EPIC[], imageType: string){
+  getPictures(epics: EPIC[], imageType: string) {
     epics.forEach(epic => {
       epic.imageUrl = `${environment.EPIC_ARCHIVE_URL}${imageType}/${epic.date.split(' ')[0].replace(/-/g, '/')}/png/${epic.image}.png?api_key=${environment.API_KEY}`;
     });

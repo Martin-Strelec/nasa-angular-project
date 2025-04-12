@@ -40,11 +40,6 @@ export class RoversComponent {
     const today = new Date();
     today.setDate(today.getDate() - 2); // Set to two days back
     this.date = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
-    
-    const toastEl = document.getElementById('liveToast');
-    if (toastEl) {
-      this.toastInstance = new bootstrap.Toast(toastEl);
-    }
   }
 
   reloadWindow() {
@@ -110,13 +105,11 @@ export class RoversComponent {
       newImage = new NewGalleryImage(this.selectedPhoto.img_src, this.selectedPhoto.earth_date);
       this._gallery.addImage(newImage).subscribe((response) => {
         this.toastMessage = 'Image Saved Succesfully!'
-        this.toastType = 'success'
-        this.showToast();
+        this.showToast('success');
         console.log('Image saved successfully:', response);
       }, (error) => {
         this.toastMessage = 'Error when saving image'
-        this.toastType = 'danger'
-        this.showToast();
+        this.showToast('danger');
         console.error('Error saving image:', error);
       });
     }
@@ -131,9 +124,13 @@ export class RoversComponent {
     }
   }
 
-  showToast(type: string = 'success') {
-    this.toastType = type;
-    this.toastInstance?.show();
+  showToast(type: string) {
+    const toastEl = document.getElementById('liveToast');
+    if (toastEl) {
+      this.toastInstance = new bootstrap.Toast(toastEl);
+      this.toastType = type;
+      this.toastInstance?.show();
+    }
   }
 
   getRoverPhotosByDate(roverName: string, date: string): void {
