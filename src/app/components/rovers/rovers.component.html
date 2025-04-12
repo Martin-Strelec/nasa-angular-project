@@ -1,8 +1,8 @@
 <div class="container py-3">
-    <div class="row">
+    <div class="row my-3">
         <h1 class="text-center">Rover</h1>
     </div>
-    <div class="row align-items-center justify-content-center mb-5">
+    <div class="row align-items-center justify-content-center my-3">
         <!-- Display error message -->
         <div *ngIf="errorMessage" class="col-md-4">
             <div class="alert alert-danger text-center">
@@ -118,20 +118,21 @@
                 </div>
                 <div class="modal-footer d-flex justify-content-between">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success" (click)="saveImage()" data-bs-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-success" (click)="saveImage()"
+                        data-bs-dismiss="modal">Save</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Toast -->
-    <div class="position-fixed bottom-0 end-0 p-3"  style="z-index: 11">
-        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" >
-          <div class="toast-header" [ngClass]="'bg-'+ toastType">
-            <button type="button" class="btn-close ms-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-          </div>
-          <div class="toast-body">
-            {{toastMessage}}
-          </div>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header" [ngClass]="'bg-'+ toastType">
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                {{toastMessage}}
+            </div>
         </div>
-      </div>
+    </div>
 </div>

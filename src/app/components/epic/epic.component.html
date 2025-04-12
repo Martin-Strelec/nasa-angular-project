@@ -1,9 +1,9 @@
 <div class="container py-3">
-    <div class="row my-3 mx-1">
+    <div class="row my-3">
         <h1 class="text-center">EPIC Images</h1>
     </div>
     <!--Selection-->
-    <div class="row my-3 mx-1">
+    <div class="row my-3">
         <!-- Display error message -->
         <div *ngIf="errorMessage">
             <div class="alert alert-danger text-center">
@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    <div class="row g-3 mx-1 justify-content-between">
+    <div class="row g-3 justify-content-between">
         <div class="col-md-6">
             <!-- Carousel -->
             <div id="carouselExampleCaptions" #carouselElement class="carousel slide" data-bs-ride="carousel">
@@ -35,15 +35,17 @@
                         aria-current="true" [attr.aria-label]="'Slide ' + i" [class.active]="i === 0"></button>
                 </div>
                 <div class="carousel-inner">
-                    <div *ngFor="let epic of EPICs; let i = index;" class="carousel-item" [class.active]="i === 0" [attr.data-index]="i">
+                    <div *ngFor="let epic of EPICs; let i = index;" class="carousel-item" [class.active]="i === 0"
+                        [attr.data-index]="i">
                         <div>
                             <div *ngIf="!epic.loaded && !epic.error">
                                 <div class="spinner-border text-secondary" role="status">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
                             </div>
-                            <img src="{{epic.imageUrl}}" class="d-block w-100 rounded-2" alt="{{epic.image}}"(load)="onImageLoad(epic)" (error)="onImageError(epic)"
-                            [hidden]="!epic.loaded || epic.error" >
+                            <img src="{{epic.imageUrl}}" class="d-block w-100 rounded-2" alt="{{epic.image}}"
+                                (load)="onImageLoad(epic)" (error)="onImageError(epic)" (click)="openModal(epic)"
+                                [hidden]="!epic.loaded || epic.error">
                             <div *ngIf="epic.error" class="text-danger">
                                 Failed to load image.
                             </div>
@@ -71,3 +73,36 @@
             <app-epic-details [epic]="currentEPIC"></app-epic-details>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal" id="imageModal" tabindex="-1" *ngIf="selectedEPIC" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{selectedEPIC.date}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body text-center">
+                        <img [src]="selectedEPIC.imageUrl" class="img-fluid">
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" (click)="saveImage()"
+                        data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Toast -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header" [ngClass]="'bg-'+ toastType">
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                {{toastMessage}}
+            </div>
+        </div>
+    </div>
+</div>
