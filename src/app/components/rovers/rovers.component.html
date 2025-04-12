@@ -55,7 +55,8 @@
                 <h2>Images are no longer available</h2>
                 <p>Unfortunately, this rover's images archive was made private.
                     However if you want to learn intresting information mars rovers, go to this website <a
-                        href="https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/" target="_blank">Mars
+                        href="https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/"
+                        target="_blank">Mars
                         Exploration Rovers</a></p>
             </ng-container>
             <ng-template #imageShowcase>
@@ -89,7 +90,7 @@
                                         </div>
                                         <img [src]="photo.img_src" alt="Mars photo" width="100%"
                                             (load)="onImageLoad(photo)" (error)="onImageError(photo)"
-                                            [hidden]="!photo.loaded || photo.error" />
+                                            [hidden]="!photo.loaded || photo.error" (click)="openModal(photo)" />
                                         <div *ngIf="photo.error" class="text-danger">
                                             Failed to load image.
                                         </div>
@@ -102,3 +103,35 @@
             </ng-template>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal" id="imageModal" tabindex="-1" *ngIf="selectedPhoto" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{selectedPhoto.earth_date}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body text-center">
+                        <img [src]="selectedPhoto.img_src" class="img-fluid">
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" (click)="saveImage()" data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Toast -->
+    <div class="position-fixed bottom-0 end-0 p-3"  style="z-index: 11">
+        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" >
+          <div class="toast-header" [ngClass]="'bg-'+ toastType">
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            {{toastMessage}}
+          </div>
+        </div>
+      </div>
+</div>
