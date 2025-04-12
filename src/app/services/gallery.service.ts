@@ -4,20 +4,16 @@ import { Observable, catchError, tap } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import {GalleryImage} from '../models/galleryImage';
 
-@Injectable({ providedIn: 'root' })
-export class ServiceNameService {
-  constructor(private httpClient: HttpClient) { }
-}
-
 @Injectable({
   providedIn: 'root'
 })
+
 export class GalleryService {
 
   private _siteURL = environment.GALLERY_DB_URL;
   constructor(private _http: HttpClient) { }
 
-  getCarDetails(): Observable<any> {
+  getImages(): Observable<any> {
     return this._http.get<GalleryImage>(this._siteURL)
       .pipe(
         tap(data => console.log('image data/error' + JSON.stringify(data))
@@ -26,7 +22,7 @@ export class GalleryService {
       );
   }
 
-  addCarDetails(image: GalleryImage): Observable<any> {
+  addImage(image: GalleryImage): Observable<any> {
     return this._http.post<GalleryImage>(this._siteURL, image)
       .pipe(
         tap(data => console.log('add image message/error' + JSON.stringify(data))
@@ -35,7 +31,7 @@ export class GalleryService {
       );
   }
 
-  delCarDetails(imageId: string): Observable<any> {
+  delImage(imageId: string): Observable<any> {
     let deleteURL = this._siteURL + "/" + imageId;
     return this._http.delete(deleteURL)
       .pipe(
