@@ -7,6 +7,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { ApodService } from '../../services/apod.service';
 import { Apod } from '../../models/apod';
+import { GalleryService } from '../../services/gallery.service';
+import { GalleryImage, NewGalleryImage } from '../../models/galleryImage';
 
 @Component({
   selector: 'app-apod-details',
@@ -22,7 +24,7 @@ export class ApodDetailsComponent {
   imageHeight: string = "200px";
   sanitizedVideoUrl: SafeResourceUrl | null = null;
 
-  constructor(private route: ActivatedRoute, private _apodService: ApodService, private sanitizer: DomSanitizer) {}
+  constructor(private route: ActivatedRoute, private _apodService: ApodService, private _gallery: GalleryService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.apodDate = this.route.snapshot.paramMap.get('date');
@@ -33,6 +35,17 @@ export class ApodDetailsComponent {
   // Function to reload the window
   reloadWindow() {
     window.location.reload();
+  }
+
+  //function to save the image
+  saveImage() {
+    let newImage: NewGalleryImage;
+    newImage = new NewGalleryImage(this.apodDetails!.url, this.apodDetails!.date);
+    this._gallery.addImage(newImage).subscribe((response) => {
+      console.log('Image saved successfully:', response);
+    }, (error) => {
+      console.error('Error saving image:', error);
+    });
   }
 
   // Calling APOD Service to fetch APOD details
