@@ -8,7 +8,10 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { ApodService } from '../../services/apod.service';
 import { Apod } from '../../models/apod';
-import { SimpleCacheService } from '../../services/simple-cache.service';
+import { NewGalleryImage } from '../../models/galleryImage';
+import { GalleryService } from '../../services/gallery.service';
+
+declare var bootstrap: any; // declare bootstrap for TS
 
 @Component({
   selector: 'app-apod',
@@ -25,8 +28,13 @@ export class ApodComponent {
   startDate: string = '';
   endDate: string = '';
   sanitizedURLs: { [key: string]: SafeResourceUrl } = {};
+  selectedApod: Apod | undefined;
+  // Toast
+  toastType: string = '';
+  toastMessage: string = '';
+  toastInstance: any;
 
-  constructor(private _apodService: ApodService, private sanitizer: DomSanitizer, private simpleCache: SimpleCacheService) { }
+  constructor(private _apodService: ApodService, private sanitizer: DomSanitizer, private _gallery: GalleryService) { }
 
   // Function to reload the window
   reloadWindow() {
@@ -34,18 +42,45 @@ export class ApodComponent {
   }
 
   ngOnInit(): void {
+    this.pictures = []; // Initialize to an empty array if the cache is empty or invalid
     // Initialize the date range to today
     const today = new Date();
     this.endDate = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
     this.startDate = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+  }
 
-    if (this.simpleCache.items.length && this.areItemsApods(this.simpleCache.items)) {
-      this.pictures = this.simpleCache.items;
-      this.sanitizedURLs = this.simpleCache.sanitizedURLs;
+  openModal(apod: Apod) {
+    this.selectedApod = apod;
+    const modalElement = document.getElementById('imageModal');
+    if (modalElement) {
+      const modalRef = new bootstrap.Modal(modalElement);
+      modalRef.show();
     }
-    else {
-      this.pictures = []; // Initialize to an empty array if the cache is empty or invalid
-      this.simpleCache.items = []; // Clear the cache if it's invalid
+  }
+
+  showToast(type: string) {
+    const toastEl = document.getElementById('liveToast');
+    if (toastEl) {
+      this.toastInstance = new bootstrap.Toast(toastEl);
+      this.toastType = type;
+      this.toastInstance?.show();
+    }
+  }
+
+  //function to save the image
+  saveImage() {
+    let newImage: NewGalleryImage;
+    if (this.selectedApod) {
+      newImage = new NewGalleryImage(this.selectedApod.url, this.selectedApod.date);
+      this._gallery.addImage(newImage).subscribe((response) => {
+        this.toastMessage = 'Image Saved Succesfully!'
+        this.showToast('success');
+        console.log('Image saved successfully:', response);
+      }, (error) => {
+        this.toastMessage = 'Error when saving image'
+        this.showToast('danger');
+        console.error('Error saving image:', error);
+      });
     }
   }
 
@@ -55,25 +90,9 @@ export class ApodComponent {
     console.log('Switch is ' + (this.isChecked ? 'ON' : 'OFF'));
   }
 
-  // Function to check if the items in the cache are of type Apod
-  private areItemsApods(items: any[]): items is Apod[] {
-      return items.every(item => this.isApod(item));
-    }
-
-  // TypeGuard
-  private isApod(item: any): item is Apod {
-      return item && 
-      typeof item.date === 'string' && 
-      typeof item.title === 'string' &&
-      typeof item.explanation === 'string' &&
-      typeof item.url === 'string'
-    } 
-
   // Function to handle the button click event
   loadData() {
     this.pictures = []; // Clear the pictures array when the button is clicked
-    this.simpleCache.items = []; // Clear the cache when the button is clicked
-    this.simpleCache.sanitizedURLs = {}; // Clear the sanitized URLs cache
     if (this.isChecked) {
       console.log(this.startDate, this.endDate);
       this.getPictures(this.startDate, this.endDate);
@@ -90,7 +109,7 @@ export class ApodComponent {
     // You could set a flag or update UI here
     photo.loaded = true;
   }
-  
+
   // Function to handle image error event
   onImageError(photo: any) {
     console.warn('Failed to load image:', photo.img_src);
@@ -109,12 +128,9 @@ export class ApodComponent {
       ).subscribe(
         picture => {
           this.pictures?.push(picture);
-          this.simpleCache.items.push(picture); // Cache the picture
           this.sanitizeURLs(); // Sanitize URLs after fetching the pictures
-          this.simpleCache.sanitizedURLs = this.sanitizedURLs; // Update the cache with sanitized URLs
           console.log(JSON.stringify(picture));
-        }
-      )
+        });
   }
 
   // Calling APOD service
@@ -130,12 +146,9 @@ export class ApodComponent {
       .subscribe(
         pictures => {
           this.pictures = pictures;
-          this.simpleCache.items = pictures; // Cache the pictures
           this.sanitizeURLs(); // Sanitize URLs after fetching the pictures
-          this.simpleCache.sanitizedURLs = this.sanitizedURLs; // Update the cache with sanitized URLs
           console.log(JSON.stringify(pictures));
-        }
-      )
+        });
   }
 
   // Function to sanitize URLs for video embedding

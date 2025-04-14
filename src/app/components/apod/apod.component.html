@@ -48,7 +48,7 @@
     <div class="row row-cols-lg-3 justify-content-between g-3 pb-3">
         <div *ngFor="let picture of pictures" class="col">
             <!--Image card-->
-            <div class="card shadow col h-100">
+            <div class="card shadow col h-100" (click)="openModal(picture)">
                 <!--Switch between image and video display-->
                 <ng-container *ngIf="picture.media_type === 'image'; else videoTemplate">
                     <div *ngIf="!picture.loaded && !picture.error">
@@ -56,8 +56,9 @@
                             <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
-                    <img class="car-img-top rounded-2" [src]="picture.url" alt="{{ picture.title }}" (load)="onImageLoad(picture)" (error)="onImageError(picture)"
-                    [hidden]="!picture.loaded || picture.error" >
+                    <img class="car-img-top rounded-2" [src]="picture.url" alt="{{ picture.title }}"
+                        (load)="onImageLoad(picture)" (error)="onImageError(picture)"
+                        [hidden]="!picture.loaded || picture.error">
                     <div *ngIf="picture.error" class="text-danger">
                         Failed to load image.
                     </div>
@@ -68,13 +69,61 @@
                             allowfullscreen></iframe>
                     </div>
                 </ng-template>
-                <div class="card-body d-flex flex-column gap-2 justify-content-between">
+                <div class="card-body">
                     <h2 class="card-text">{{picture.title}}</h2>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <p class="card-text">{{picture.date}}</p>
-                        <a [routerLink]="['/apod-details',picture.date]" class="btn btn-outline-secondary">Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal" id="imageModal" tabindex="-1" *ngIf="selectedApod">
+        <div class="modal-dialog modal-md modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{selectedApod.date}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!--Switch between image and video display-->
+                    <ng-container *ngIf="selectedApod.media_type === 'image'; else videoTemplate">
+                        <div *ngIf="!selectedApod.loaded && !selectedApod.error">
+                            <div class="spinner-border text-secondary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <img class="ratio ratio-4x3 rounded-2" [src]="selectedApod.url" alt="{{ selectedApod.title }}"
+                            (load)="onImageLoad(selectedApod)" (error)="onImageError(selectedApod)"
+                            [hidden]="!selectedApod.loaded || selectedApod.error">
+                        <div *ngIf="selectedApod.error" class="text-danger">
+                            Failed to load image.
+                        </div>
+                    </ng-container>
+                    <ng-template #videoTemplate>
+                        <div class="ratio ratio-4x3 rounded-2">
+                            <iframe class="embed-item rounded-2 w-100" [src]="sanitizedURLs[selectedApod.url]"
+                                frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </ng-template>
+                    <div class="pt-3">
+                        <h2>{{selectedApod.title}}</h2>
+                        <p class="text-start">{{selectedApod.explanation}}</p>
                     </div>
                 </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" *ngIf="selectedApod.media_type !== 'video'" (click)="saveImage()" data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Toast -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header" [ngClass]="'bg-'+ toastType">
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                {{toastMessage}}
             </div>
         </div>
     </div>
