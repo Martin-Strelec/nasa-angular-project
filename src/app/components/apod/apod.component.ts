@@ -49,15 +49,17 @@ export class ApodComponent {
     this.startDate = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
   }
 
+  //Function for opening modal
   openModal(apod: Apod) {
     this.selectedApod = apod;
-    const modalElement = document.getElementById('imageModal');
+    const modalElement = document.getElementById('imageModal'); //Getting the dom element
     if (modalElement) {
       const modalRef = new bootstrap.Modal(modalElement);
-      modalRef.show();
+      modalRef.show(); // Using bootstraps js to open modal
     }
   }
 
+  //Function to show toast
   showToast(type: string) {
     const toastEl = document.getElementById('liveToast');
     if (toastEl) {

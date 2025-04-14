@@ -54,6 +54,7 @@ export class AsteroidsComponent implements OnInit {
     window.location.reload();
   }
 
+  // Function to open the modal
   openModal(asteroid: Asteroid) {
     this.selectedAsteroid = asteroid;
     this.onModalOpen.emit(this.selectedAsteroid.id);

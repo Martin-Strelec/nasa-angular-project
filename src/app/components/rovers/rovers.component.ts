@@ -42,10 +42,12 @@ export class RoversComponent {
     this.date = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
   }
 
+  // Function to reload window
   reloadWindow() {
     window.location.reload();
   }
 
+  // Function to handle button switching
   onSwitchChange(event: Event) {
     this.resetValues();
 
@@ -53,6 +55,7 @@ export class RoversComponent {
     console.log('Switch is ' + (this.isChecked ? 'ON' : 'OFF'));
   }
 
+  // Function to group photos based on the camera that took them
   groupPhotosByCamera(photos: RoverPhoto[]): { [key: string]: any[] } {
     const grouped: { [cameraName: string]: RoverPhoto[] } = {};
 
@@ -66,30 +69,32 @@ export class RoversComponent {
     return grouped;
   }
 
+  // Function to load data when search button is pressed
   loadData() {
     this.resetValues();
     if (this.isChecked) {
-      console.log('Fetching images by sol:', this.sol);
+      // console.log('Fetching images by sol:', this.sol);
       this.getRoverPhotosBySol(this.roverName, this.sol);
     }
     else {
-      console.log('Fetching images by date:', this.date);
+      // console.log('Fetching images by date:', this.date);
       this.getRoverPhotosByDate(this.roverName, this.date);
     }
     this.getRoverManifest(this.roverName);
   }
 
   onImageLoad(photo: any) {
-    console.log('Image loaded:', photo.img_src);
+    // console.log('Image loaded:', photo.img_src);
     // You could set a flag or update UI here
     photo.loaded = true;
   }
 
   onImageError(photo: any) {
-    console.warn('Failed to load image:', photo.img_src);
+    // console.warn('Failed to load image:', photo.img_src);
     photo.error = true;
   }
 
+  // Function to reset values
   resetValues() {
     this.picturesErrorMessage = '';
     this.errorMessage = '';
@@ -115,6 +120,7 @@ export class RoversComponent {
     }
   }
 
+  // Function to open modal
   openModal(photo: RoverPhoto) {
     this.selectedPhoto = photo;
     const modalElement = document.getElementById('imageModal');
@@ -124,6 +130,7 @@ export class RoversComponent {
     }
   }
 
+  // Function to show toats notification
   showToast(type: string) {
     const toastEl = document.getElementById('liveToast');
     if (toastEl) {
@@ -133,6 +140,7 @@ export class RoversComponent {
     }
   }
 
+  // Calling service to retrieve images by date
   getRoverPhotosByDate(roverName: string, date: string): void {
     this._roversService.getImagesByDate(roverName, date)
       .pipe(
@@ -157,6 +165,7 @@ export class RoversComponent {
       });
   }
 
+  // Calling service to retrieve image sby martian sol
   getRoverPhotosBySol(roverName: string, sol: number): void {
     this._roversService.getImagesBySol(roverName, sol)
       .pipe(
@@ -181,6 +190,7 @@ export class RoversComponent {
       });
   }
 
+  // Calling service to retrieve rover's manifest details
   getRoverManifest(roverName: string): void {
     this._roversService.getMissionManifest(roverName)
       .pipe(

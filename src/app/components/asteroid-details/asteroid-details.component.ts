@@ -20,7 +20,7 @@ export class AsteroidDetailsComponent {
   asteroidDetails?: AsteroidDetails;
   errorMessage: string = '';
 
-  constructor(private route: ActivatedRoute, private _asteroidsService: AsteroidsService) { }
+  constructor(private _asteroidsService: AsteroidsService) { }
 
   ngOnInit() {
     this.fetchDetails(this.asteroidId);
@@ -38,7 +38,7 @@ export class AsteroidDetailsComponent {
       .pipe(
         catchError((error) => {
           this.errorMessage = 'Failed to fetch Asteroid details. Please try again later.';
-          console.error('Error fetching EPIC metadata:', error);
+          console.error('Error fetching Asteroid metadata:', error);
           return throwError(error); // Rethrow the error for further handling if needed
         })
       ).subscribe((response: AsteroidDetails) => {

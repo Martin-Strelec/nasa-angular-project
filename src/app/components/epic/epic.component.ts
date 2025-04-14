@@ -52,21 +52,23 @@ export class EpicComponent implements AfterViewInit {
     carouselEl.addEventListener('slid.bs.carousel', () => {
       this.getActiveSlideModel();
     });
-
     // Initial load
     this.getActiveSlideModel();
   }
+
   // Handles the image loading
   onImageLoad(photo: any) {
     console.log('Image loaded:', photo.img_src);
     // You could set a flag or update UI here
     photo.loaded = true;
   }
+
   // Hangles image loading error
   onImageError(photo: any) {
     console.warn('Failed to load image:', photo.img_src);
     photo.error = true;
   }
+
   // Sets the current image to the active one in the carousel
   getActiveSlideModel(): void {
     const activeEl = this.carousel.nativeElement.querySelector('.carousel-item.active');
@@ -78,10 +80,12 @@ export class EpicComponent implements AfterViewInit {
       console.log('Active model:', this.currentEPIC);
     }
   }
+
   // Function to reload the window
   reloadWindow() {
     window.location.reload();
   }
+
   //function to save the image
   saveImage() {
     let newImage: NewGalleryImage;
@@ -98,6 +102,7 @@ export class EpicComponent implements AfterViewInit {
       });
     }
   }
+
   // fucntion to show toast
   showToast(type: string) {
     const toastEl = document.getElementById('liveToast');
@@ -107,21 +112,24 @@ export class EpicComponent implements AfterViewInit {
       this.toastInstance?.show();
     }
   }
+
   // function to open Modal
   openModal(epic: EPIC) {
-      this.selectedEPIC = epic;
-      const modalElement = document.getElementById('imageModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
+    this.selectedEPIC = epic;
+    const modalElement = document.getElementById('imageModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
     }
+  }
+
   // Search button function
   loadData() {
     this.EPICs = []; // Clear the pictures array when the button is clicked
     console.log(this.date)
     this.getEPICs(this.imageType, this.date);
   }
+
   // Retrieves the image URL from the EPICs array and sets it to the imageUrl property of each EPIC object
   getPictures(epics: EPIC[], imageType: string) {
     epics.forEach(epic => {
@@ -129,6 +137,7 @@ export class EpicComponent implements AfterViewInit {
     });
 
   }
+
   // Calls EpicService to get the EPICs
   getEPICs(imageType: string, date: string) {
     this._epicService.getEPICMetadata(date, imageType)

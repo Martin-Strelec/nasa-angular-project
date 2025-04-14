@@ -34,7 +34,6 @@ export class GalleryComponent {
     window.location.reload();
   }
 
-
   // Handles the image loading
   getImages() {
     this._gallery.getImages()
@@ -49,40 +48,43 @@ export class GalleryComponent {
       });
   }
 
+  // Calling service to delete image from database
   deleteImage(image: GalleryImage) {
-        this._gallery.delImage(image._id)
-          .pipe(
-            catchError((error) => {
-              this.toastMessage = 'Image Deleted Succesfully!'
-              this.showToast('danger');
-              console.error('Error deleting image:', error);
-              return throwError(error); // Rethrow the error for further handling if needed
-            })
-          )
-          .subscribe(result => {
-            this.toastMessage = 'Image Deleted Succesfully!'
-            this.showToast('success');
-            console.log('Image deleted successfully:', result);
-            this.getImages(); // Refresh the image list after deletion
-          });
-      }
+    this._gallery.delImage(image._id)
+      .pipe(
+        catchError((error) => {
+          this.toastMessage = 'Image Deleted Succesfully!'
+          this.showToast('danger');
+          console.error('Error deleting image:', error);
+          return throwError(error); // Rethrow the error for further handling if needed
+        })
+      )
+      .subscribe(result => {
+        this.toastMessage = 'Image Deleted Succesfully!'
+        this.showToast('success');
+        console.log('Image deleted successfully:', result);
+        this.getImages(); // Refresh the image list after deletion
+      });
+  }
 
+  // Function to open modal
   openModal(image: GalleryImage) {
-        this.selectedImage = image;
-        const modalElement = document.getElementById('imageModal');
-        if(modalElement) {
-          const modal = new bootstrap.Modal(modalElement);
-          modal.show();
-        }
-      }
+    this.selectedImage = image;
+    const modalElement = document.getElementById('imageModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
 
+  // Function to show toast
   showToast(type: string) {
-        const toastEl = document.getElementById('liveToast');
-        if(toastEl) {
-          this.toastInstance = new bootstrap.Toast(toastEl);
-          this.toastType = type;
-          this.toastInstance?.show();
-        }
-      }
+    const toastEl = document.getElementById('liveToast');
+    if (toastEl) {
+      this.toastInstance = new bootstrap.Toast(toastEl);
+      this.toastType = type;
+      this.toastInstance?.show();
+    }
+  }
 
 }

@@ -12,10 +12,10 @@ export class RoverDetailsComponent implements OnChanges {
 
   @Input() photoManifest!: PhotoManifest;
 
+  // Different approach to updating input when parent component updates the output value
   ngOnChanges(changes: SimpleChanges) {
     if (changes['roverManifest'] && changes['roverManifest'].currentValue) {
       console.log('Rover updated:', this.photoManifest);
     }
   }
-
 }
