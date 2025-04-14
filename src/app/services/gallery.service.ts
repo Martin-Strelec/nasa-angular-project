@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, catchError, tap } from 'rxjs';
+import { Observable, catchError, tap, throwError } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import {GalleryImage} from '../models/galleryImage';
 
@@ -43,8 +43,8 @@ export class GalleryService {
   }
   
   private handleError(err: HttpErrorResponse) {
-    console.log('CarApiService: ' + err.message);
-    return err.message;
+    console.log('API Error!', err);
+    return throwError(() => new Error(err.message || 'Server Error'));
   }
 
 }
