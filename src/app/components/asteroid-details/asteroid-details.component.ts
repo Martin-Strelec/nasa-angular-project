@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { AsteroidDetails } from '../../models/asteroidDetails';
 import { AsteroidsService } from '../../services/asteroids.service';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { Asteroid } from '../../models/asteroids';
+
 
 @Component({
   selector: 'app-asteroid-details',
@@ -14,15 +16,14 @@ import { throwError } from 'rxjs';
 })
 export class AsteroidDetailsComponent {
   // Properties
-  asteroidId?: string | null
+  @Input() asteroidId: string = '';
   asteroidDetails?: AsteroidDetails;
   errorMessage: string = '';
 
   constructor(private route: ActivatedRoute, private _asteroidsService: AsteroidsService) { }
 
   ngOnInit() {
-    this.asteroidId = this.route.snapshot.paramMap.get('id');
-    this.fetchDetails(this.asteroidId!);
+    this.fetchDetails(this.asteroidId);
   }
 
   // Function to reload the window
