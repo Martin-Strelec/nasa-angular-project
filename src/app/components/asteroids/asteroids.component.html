@@ -2,7 +2,7 @@
     <div class="row my-3"> <!-- Centering the items -->
         <h1 class="col-12 text-center">Near-Miss Asteroids</h1>
     </div>
-    <div class="row my-3"> <!-- Centering the items -->
+    <div class="row align-items-center justify-content-center my-3"> <!-- Centering the items -->
         <!-- Display error message -->
         <div *ngIf="errorMessage" class="col-4">
             <div class="alert alert-danger text-center">
@@ -33,13 +33,27 @@
     </div>
     <div class="row mx-1"> <!-- Centering the items -->
         <div *ngFor="let asteroid of asteroids" class="col-lg-2 col-md-3 col-6 g-3 d-flex justify-content-center">
-            <div class="card p-2" style="width: 18rem;">
+            <div class="card p-2" (click)="openModal(asteroid)" style="width: 18rem;">
                 <img src="images/asteroidPlaceholder.png" class="card-img-top" alt="asteroid_placeholder">
                 <div class="card-body"> <!-- Centering text inside the card -->
                     <h5 class="card-title">{{ asteroid.name }}</h5>
                     <p class="card-text">Dangerous: {{asteroid.is_potentially_hazardous_asteroid ? 'Yes' : 'No'}}</p>
-                    <a [routerLink]="['/asteroid-details',asteroid.id]" class="btn btn-outline-dark">Details</a>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal" id="imageModal" tabindex="-1">
+        <div class="modal-dialog modal-md modal-dialog-scrollable">
+            <div class="modal-content" *ngIf="selectedAsteroid">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{selectedAsteroid.name}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                   <app-asteroid-details [asteroidId]="selectedAsteroid.id"></app-asteroid-details>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
