@@ -3,14 +3,16 @@
     <div class="row my-3">
         <h1 class="text-center mb-3">Gallery</h1>
     </div>
-    <div *ngIf="errorMessage" class="col-md-9">
-        <div class="alert alert-danger text-center">
-            {{ errorMessage }}
-        </div>
-        <div class="text-center mt-2">
-            <img src="images/reloadIcon.png" alt="Reload Icon" class="img-fluid"
-                style="width: 30px; cursor: pointer;" (click)="reloadWindow()" />
-            <p class="text-muted small mt-1">Click to reload</p>
+    <div class="row my-3 justify-content-center">
+        <div *ngIf="errorMessage" class="col-md-9">
+            <div class="alert alert-danger text-center">
+                {{ errorMessage }}
+            </div>
+            <div class="text-center mt-2">
+                <img src="images/reloadIcon.png" alt="Reload Icon" class="img-fluid"
+                    style="width: 30px; cursor: pointer;" (click)="reloadWindow()" />
+                <p class="text-muted small mt-1">Click to reload</p>
+            </div>
         </div>
     </div>
     <div class="row my-3 g-3">
