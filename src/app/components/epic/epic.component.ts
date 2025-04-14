@@ -148,6 +148,8 @@ export class EpicComponent implements AfterViewInit {
           this.EPICs = response;
           console.log(response);
           this.errorMessage = ''; // Clear error message on success
+          this.currentEPIC = this.EPICs[0]; // Set the first EPIC as the current one
+          this.onEpicChange.emit(this.currentEPIC); // Initial emission of the first EPIC in the list
           this.getPictures(this.EPICs, imageType);
         },
         error: () => {
