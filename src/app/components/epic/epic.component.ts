@@ -26,7 +26,7 @@ export class EpicComponent implements AfterViewInit {
 
   EPICs: EPIC[] = [];
   currentEPIC?: EPIC;
-  selectedEPIC!: EPIC;
+  selectedEPIC?: EPIC;
   errorMessage: string = '';
   imageType: string = 'enhanced';
   date: string = '';

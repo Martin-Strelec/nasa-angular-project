@@ -24,7 +24,7 @@ export class AsteroidsComponent implements OnInit {
   startDate: string = '';
   endDate: string = '';
   errorMessage: string = '';
-  selectedAsteroid: Asteroid | undefined;
+  selectedAsteroid?: Asteroid;
 
   @Output() onModalOpen: EventEmitter<string>;
 

@@ -10,7 +10,7 @@ import { PhotoManifest } from '../../models/rover';
 })
 export class RoverDetailsComponent implements OnChanges {
 
-  @Input() photoManifest!: PhotoManifest;
+  @Input() photoManifest?: PhotoManifest;
 
   // Different approach to updating input when parent component updates the output value
   ngOnChanges(changes: SimpleChanges) {

@@ -23,13 +23,14 @@ export class RoversComponent {
   picturesErrorMessage = '';
   errorMessage: string = '';
   isChecked: boolean = false;
-  sol: number = 1;
+  sol: number = 1; //default
   date: string = '';
   roverName: string = "curiosity";
   photos: RoverPhoto[] = [];
   groupedPhotos: { [key: string]: RoverPhoto[] } = {};
   currentManifest: PhotoManifest | null = null;
   selectedPhoto?: RoverPhoto;
+  // Toast
   toastType: string = '';
   toastMessage: string = '';
   toastInstance: any;
