@@ -25,7 +25,7 @@ export class EpicComponent implements AfterViewInit {
   @ViewChild('carouselElement') carousel!: ElementRef;
 
   EPICs: EPIC[] = [];
-  currentEPIC!: EPIC;
+  currentEPIC?: EPIC;
   selectedEPIC!: EPIC;
   errorMessage: string = '';
   imageType: string = 'enhanced';
@@ -126,6 +126,7 @@ export class EpicComponent implements AfterViewInit {
   // Search button function
   loadData() {
     this.EPICs = []; // Clear the pictures array when the button is clicked
+    this.currentEPIC = undefined;
     console.log(this.date)
     this.getEPICs(this.imageType, this.date);
   }

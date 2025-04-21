@@ -10,5 +10,5 @@ import { EPIC } from '../../models/epic';
 })
 export class EpicDetailsComponent {
   // Properties
-  @Input() epic!: EPIC;
+  @Input() epic?: EPIC;
 }
