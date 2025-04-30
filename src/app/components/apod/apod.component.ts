@@ -36,9 +36,9 @@ export class ApodComponent {
 
   constructor(private _apodService: ApodService, private sanitizer: DomSanitizer, private _gallery: GalleryService) { }
 
-  // Function to reload the window
-  reloadWindow() {
-    window.location.reload();
+  // Closing alert 
+  closeAlert() {
+    this.errorMessage='';
   }
 
   ngOnInit(): void {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { GalleryService } from '../../services/gallery.service';
@@ -9,7 +10,7 @@ declare var bootstrap: any; // declare bootstrap for TS
 
 @Component({
   selector: 'app-gallery',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.css'
 })
@@ -27,11 +28,6 @@ export class GalleryComponent {
 
   ngOnInit() {
     this.getImages();
-  }
-
-  // Function to reload the window
-  reloadWindow() {
-    window.location.reload();
   }
 
   // Handles the image loading

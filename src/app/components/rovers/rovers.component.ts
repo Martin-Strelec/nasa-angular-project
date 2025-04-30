@@ -43,9 +43,9 @@ export class RoversComponent {
     this.date = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
   }
 
-  // Function to reload window
-  reloadWindow() {
-    window.location.reload();
+  // Closing alert
+  closeAlert() {
+    this.errorMessage = '';
   }
 
   // Function to handle button switching

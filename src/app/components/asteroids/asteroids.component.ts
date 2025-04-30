@@ -49,9 +49,9 @@ export class AsteroidsComponent implements OnInit {
     }
   }
 
-  // Function to reload the window
-  reloadWindow() {
-    window.location.reload();
+  // Closing alert
+  closeAlert() {
+    this.errorMessage = '';
   }
 
   // Function to open the modal

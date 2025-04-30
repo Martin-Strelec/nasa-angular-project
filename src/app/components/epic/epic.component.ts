@@ -81,9 +81,9 @@ export class EpicComponent implements AfterViewInit {
     }
   }
 
-  // Function to reload the window
-  reloadWindow() {
-    window.location.reload();
+  // Closing alert
+  closeAlert() {
+    this.errorMessage = '';
   }
 
   //function to save the image

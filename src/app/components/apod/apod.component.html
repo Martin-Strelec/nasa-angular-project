@@ -5,13 +5,10 @@
     <!--Selection-->
     <div class="row align-items-center justify-content-center my-3">
         <!-- Display error message -->
-        <div *ngIf="errorMessage" class="col-4">
-            <div class="alert alert-danger text-center">
-                {{errorMessage}}
-            </div>
-            <div (click)="(reloadWindow())">
-                <img src="images/reloadIcon.png" alt="Error Image" class="img-fluid mx-auto d-block"
-                    style="width: 25px; height: auto;">
+        <div *ngIf="errorMessage" class="col-md-4">
+            <div class="alert alert-danger alert-dismissible fade show text-center" role="alert" (click)="closeAlert()">
+                <strong>Error!</strong> {{errorMessage}}.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>
         <!--Date selection-->

@@ -3,15 +3,13 @@
     <div class="row my-3">
         <h1 class="text-center mb-3">Gallery</h1>
     </div>
-    <div class="row my-3 justify-content-center">
-        <div *ngIf="errorMessage" class="col-md-9">
-            <div class="alert alert-danger text-center">
-                {{ errorMessage }}
+    <div class="row my-3 justify-content-center align-items-center">
+        <div *ngIf="errorMessage" class="col-md-4">
+            <div class="alert alert-danger fade show text-center" role="alert">
+                <strong>Error!</strong> {{errorMessage}}.
             </div>
-            <div class="text-center mt-2">
-                <img src="images/reloadIcon.png" alt="Reload Icon" class="img-fluid"
-                    style="width: 30px; cursor: pointer;" (click)="reloadWindow()" />
-                <p class="text-muted small mt-1">Click to reload</p>
+            <div class="col d-flex justify-content-center">
+                <div class="btn btn-secondary" [routerLink]="['/']">Go Home</div>
             </div>
         </div>
     </div>
@@ -38,20 +36,21 @@
                 </div>
                 <div class="modal-footer d-flex justify-content-between">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" (click)="deleteImage(selectedImage)" data-bs-dismiss="modal">Delete</button>
+                    <button type="button" class="btn btn-danger" (click)="deleteImage(selectedImage)"
+                        data-bs-dismiss="modal">Delete</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Toast -->
-    <div class="position-fixed bottom-0 end-0 p-3"  style="z-index: 11">
-        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" >
-          <div class="toast-header" [ngClass]="'bg-'+ toastType">
-            <button type="button" class="btn-close ms-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-          </div>
-          <div class="toast-body">
-            {{toastMessage}}
-          </div>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header" [ngClass]="'bg-'+ toastType">
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                {{toastMessage}}
+            </div>
         </div>
-      </div>
+    </div>
 </div>
