@@ -57,3 +57,10 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Resources used in this project
+
+- Mars Rover Image: [@Sufyan](https://unsplash.com/photos/an-artists-rendering-of-a-mars-rover-on-a-rocky-surface-1C-39tznRso)
+- Asteroids Image: [@Nasa Hubble Space Telescope](https://unsplash.com/photos/an-artists-rendering-of-a-distant-star-system-nZF0xFE0Z8o)
+- Astronaut Image: [@Niketh Vellanki](https://unsplash.com/photos/astronaut-floating-in-space-QkSN_8XcXwQ)
+- Earth Image: [@NASA](https://unsplash.com/photos/earth-with-clouds-above-the-african-continent-vhSz50AaFAs)
